@@ -13,7 +13,7 @@ export async function newClient() {
     });
   } else {
     client = new Client({
-      connectionString: process.env.DATABASE_URL,
+      connectionString: process.env.DOKKU_POSTGRES_AQUA_URL,
       ssl: {
         rejectUnauthorized: false
       }
