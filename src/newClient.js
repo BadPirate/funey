@@ -12,7 +12,9 @@ export async function newClient() {
       database: process.env.DB,
     });
   } else {
-    client = Client();
+    client = Client({
+      url: process.env.DATABASE_URL,
+    })
   }
 
   await client.connect();
