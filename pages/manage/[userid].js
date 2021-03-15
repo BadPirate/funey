@@ -1,26 +1,61 @@
 import { useEffect, useState } from "react"
+import { Button, Card, Form, FormControl, InputGroup, Alert } from "react-bootstrap";
 import newClient from "../../src/newClient"
 import updateInterest from "../../src/updateInterest"
 
 const Manage = ({userid, account: {interest, value, view}}) => {
-    const [hostname, setHostname] = useState();
+    const [hostname, setHostname] = useState()
+    const [copied, setCopied] = useState(false)
 
     useEffect(() => {
         setHostname(window.location.hostname)
     },[])
     return (
-        <div>
-        <h1>Parent Account Management</h1>
-        <h2>Current Balance:</h2>
-        <form method="POST" action={`/api/manage/${userid}/update`}>
-            <input name="value" defaultValue={value.toFixed(2)}></input>
-            <input type="submit" value="Update Balance"/>
-        <h2>Interest:</h2>
-            <input name="interest" defaultValue={interest.toFixed(3)}></input>
-            <input type="submit" value="Update Interest"/>
-        </form>
-        <h2>View: <a href={`/view/${view}`}>{`https://${hostname}/view/${view}`}</a></h2>
-        </div>
+        <Card>
+            <Card.Header>
+              <Card.Title>Parent Account Management</Card.Title>
+            </Card.Header>
+            <Card.Body>
+                <h2>Account Information:</h2>
+                <Card.Text>
+                <Form method="POST" action={`/api/manage/${userid}/update`}>
+                    <InputGroup>
+                      <InputGroup.Prepend>
+                        <InputGroup.Text>
+                          Balance $
+                        </InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl name="value" defaultValue={value.toFixed(2)}/>
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroup.Prepend>
+                        <InputGroup.Text>
+                          Interest (Monthly on the 1st)
+                        </InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl name="interest" defaultValue={interest.toFixed(3)}/>
+                      <InputGroup.Append>
+                        <InputGroup.Text>%</InputGroup.Text>
+                      </InputGroup.Append>
+                    </InputGroup>
+                    <Button type="submit">Update</Button>
+                </Form>
+                </Card.Text>
+                <Card.Text>
+                    <h2>Kids View</h2>
+                    In order for your kid to see their account balance simply bookmark this page for them:
+                    <Alert className="text-center" variant="info" onClick={(e) => {
+                        navigator.clipboard.writeText(`https://${hostname}/view/${view}`)
+                        setCopied(true)
+                        setTimeout(() => {
+                            setCopied(false)
+                        }, 3000)
+                    }}>
+                        {copied ? "Copied" : `https://${hostname}/view/${view}`}
+                    </Alert>
+                </Card.Text>
+            </Card.Body>
+        </Card>
     )
 }
 
@@ -41,7 +76,7 @@ export async function getServerSideProps({query: {userid}}) {
         next, viewid, value, interest
     }} = props
 
-    await updateInterest(next, client, viewid, props, value, interest)
+    props = await updateInterest(next, client, viewid, props, value, interest)
 
     delete props.account.next
     return { props }

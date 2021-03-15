@@ -20,16 +20,22 @@ export async function updateInterest(next, client, viewid, props, value, interes
         if (next < Date.now()) {
             // Add interest, based on month diff, and update the next value
             let owedMonths = monthDiff(next, new Date()) + 1;
+            while (owedMonths > 0) {
+                props.account.value = props.account.value + (props.account.value * interest)
+                owedMonths -= 1
+            }
             await client.query(`
             UPDATE accounts SET next = to_Date('01 ' || date_part('month', (SELECT current_timestamp)) + 1 || ' ' || date_part('year', (SELECT current_timestamp)), 'dd mm YYYY'),
             value = $2
             WHERE view = $1
-            `, [viewid, (value + ((value * interest) * owedMonths))])
+            `, [viewid, props.account.value])
                 .catch(error => {
                     props.error = JSON.stringify(error);
                 });
         }
     }
+
+    return props
 }
 
 export default updateInterest

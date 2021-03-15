@@ -1,28 +1,52 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { Card, Form, Button } from 'react-bootstrap'
 
 export default function Home() {
   return (
-    <div>
-      <h1>Welcome to Funey!</h1>
-      <p>Make learning about money fun!</p>
-      <p>A website for creating a fake checking account that you can deposit and remove from, 
-        as well as provide automatic interest towards, and your children can see the balance of.
-        For the purpose of teaching the value of saving / good spending habits.
-      </p>
-      <h2>Create Account:</h2>
-      <form method="POST" action="/api/create">
-        <input name="user" placeholder="user"></input><br/>
-        <input type="password" name="pass" placeholder="Password"></input><br/>
-        <input type="password" name="pass2" placeholder="Retype Password"></input><br/>
-        <input type="submit" name="submit" value="Create Account"></input>
-      </form>
-      <h2>Login</h2>
-      <form method="POST" action="/api/login">
-        <input name="user" placeholder="user"></input><br/>
-        <input type="password" name="pass" placeholder="Password"/><br/>
-        <input type="submit" value="Login"/>
-      </form>
-    </div>
+    <Card>
+      <Card.Header>
+        <Card.Title>Welcome to Funey!</Card.Title>
+      </Card.Header>
+      <Card.Body>
+        <Card.Text>
+          <b>Funey</b> is a website that makes Mo<b>ney</b> <b>Fun</b> :)
+        </Card.Text>
+        <Card.Text>
+          To get started, create a fake "bank" account for your little ones,
+          set a balance, and an interest rate (acrrued monthly) and then add the
+          website link to their mobile device or iPad for "viewing" their balance.
+          As they earn or spend money, come back to the manage page (bookmark or login)
+          and update their account totals.
+        </Card.Text>
+        <h2>Login</h2>
+        <Form method="POST" action="/api/login">
+          <Form.Group>
+            <Form.Label>Username</Form.Label>
+            <Form.Control placeholder="User" name="user"/>            
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" name="pass"/>
+          </Form.Group>
+          <Button type="submit">Login</Button>
+        </Form>
+        <h2>Create Account</h2>
+        <Form method="POST" action="/api/create">
+          <Form.Group>
+            <Form.Label>Username</Form.Label>
+            <Form.Control placeholder="User" name="user"/>            
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" name="pass"/>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Repeat Password" name="pass2"/>
+          </Form.Group>
+          <Button type="submit">Login</Button>
+        </Form>
+      </Card.Body>
+    </Card>
+
   )
 }

@@ -1,8 +1,22 @@
+import { Card } from "react-bootstrap";
 import newClient from "../../src/newClient"
 import updateInterest from "../../src/updateInterest";
 
 const View = ({account: {value}}) => {
-    return <h1>Your Money: ${value.toFixed(2)}</h1>
+    return (
+        <Card>
+            <Card.Header>
+                <Card.Title>
+                    Your Money
+                </Card.Title>
+            </Card.Header>
+            <Card.Body>
+                <Card.Title className="text-center">
+                    {`$${value.toFixed(2)}`}
+                </Card.Title>
+            </Card.Body>
+        </Card>
+    )
 }
 
 export async function getServerSideProps({query: {viewid}}) {
@@ -29,7 +43,7 @@ export async function getServerSideProps({query: {viewid}}) {
         }
     } = props
 
-    await updateInterest(next, client, viewid, props, value, interest);
+    props = await updateInterest(next, client, viewid, props, value, interest);
 
     client.end()
     delete props.account.next
