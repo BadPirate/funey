@@ -1,9 +1,11 @@
-import newClient from "../../../../src/FuneyPG"
+import newClient, { addTransaction } from "../../../../src/FuneyPG"
 
 export default async function Update(req, res) {
-    const {
+    var {
         body : {
-            interest
+            amount,
+            description,
+            action
         },
         query : {
             userid
@@ -17,7 +19,13 @@ export default async function Update(req, res) {
 
     let client = await newClient()
 
-    await client.query('UPDATE accounts SET interest = $2 WHERE id = $1', [userid, interest])
+    if (action == 'subtract' && amount > 0) {
+        amount = amount * -1
+    } else if (amount < 0) {
+        amount = amount * -1
+    }
+
+    await addTransaction(client, userid, description, amount)
     .catch( (error) => {
         console.log("ERROR",error)
         res.status(500).send("Error :(")

@@ -1,8 +1,8 @@
 import { Card } from "react-bootstrap";
-import newClient from "../../src/newClient"
-import updateInterest from "../../src/updateInterest";
+import newClient, { getAccountInfo, getTransactions } from "../../src/FuneyPG"
+import TransactionsCard from "../../src/TransactionsCard";
 
-const View = ({account: {value}}) => {
+const View = ({account: {value}, transactions}) => {
     return (
         <Card>
             <Card.Header>
@@ -14,6 +14,7 @@ const View = ({account: {value}}) => {
                 <Card.Title className="text-center">
                     {`$${value.toFixed(2)}`}
                 </Card.Title>
+                <TransactionsCard transactions={transactions}/>
             </Card.Body>
         </Card>
     )
@@ -23,30 +24,11 @@ export async function getServerSideProps({query: {viewid}}) {
     const client = await newClient()
     let props = { viewid }
 
-    await client.query('SELECT value, interest, next FROM accounts WHERE view = $1::text',[viewid])
-    .then((result) => {
-        props.account = result.rows[0]
-    })
-    .catch((error) => {
-        props.error = JSON.stringify(error)
-    })
-
-    if (!props.account) {
-        return { props }
-    }
-
-    let {
-        account : {
-            next,
-            value,
-            interest
-        }
-    } = props
-
-    props = await updateInterest(next, client, viewid, props, value, interest);
+    await getAccountInfo(client, props, viewid)
+    await getTransactions(client, props, viewid)
 
     client.end()
-    delete props.account.next
+
     return { props }
 }
 
