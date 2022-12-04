@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { Button, Card, Form, FormControl, InputGroup, Alert, CardDeck } from "react-bootstrap"
 import newClient, { getAccountInfo, getTransactions } from "../../src/FuneyPG"
 import TransactionsCard from "../../src/TransactionsCard"
-import { updateInterest } from "../../src/updateInterest"
+import { updateAllowance, updateInterest } from "../../src/updateInterest"
 
-const Manage = ({userid, transactions, account: {interest, value, view}}) => {
+const Manage = ({userid, transactions, account: {interest, value, view, allowance}}) => {
     const [hostname, setHostname] = useState()
     const [copied, setCopied] = useState(false)
 
@@ -30,17 +30,27 @@ const Manage = ({userid, transactions, account: {interest, value, view}}) => {
                       <Button type="submit" name="action" value="add" variant="success">Add</Button>
                     </InputGroup>
                   </Form>
-                </Card.Text>
+                </Card.Text>              
+              </Card.Body>
+              <Card.Body>
                 <Form method="POST" action={`/api/manage/${userid}/update`}>
                   <h2>
                     Interest: 
                     <InputGroup>
                       <FormControl name="interest" defaultValue={interest.toFixed(3)}/> 
-                      <Button type="submit">Update</Button>
                     </InputGroup>
                   </h2>
-                  Interest is added monthly on the 1st.
+                  <Form.Text>Interest is added monthly on the 1st.</Form.Text>
+                  <h2>
+                    Allowance: 
+                    <InputGroup>
+                      <FormControl name="allowance" defaultValue={allowance ? allowance.toFixed(3) : 0}/> 
+                    </InputGroup>
+                  </h2>
+                  <Form.Text>Allowance is added weekly on Sunday</Form.Text>
+                  <div><Button type="submit">Update</Button></div>
                 </Form>
+              </Card.Body><Card.Body>
                 <Card.Text>
                     <h2>Kids View</h2>
                     In order for your kid to see their account balance simply bookmark this page for them:
@@ -67,6 +77,7 @@ export async function getServerSideProps({query: {userid}}) {
     .then(_ => {
       return updateInterest(client, userid)
     })
+    .then(() => updateAllowance(client, userid))
     .then(_ => {
       return getTransactions(client, props, userid)
     })

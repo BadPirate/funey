@@ -1,5 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Database
+
+You'll need to setup a Postgres SQL database to run locally:
+
+1.  Setup a new database
+2.  Upload the default schema into your DB, `psql dbname < schema.dump`
+3.  Set `PGHOST`, `PGPORT`, `PGPASS` and `DB` values in `.env.local` (and your production env)
+
 ## Getting Started
 
 First, run the development server:

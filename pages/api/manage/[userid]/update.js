@@ -3,7 +3,7 @@ import newClient from "../../../../src/FuneyPG"
 export default async function Update(req, res) {
     const {
         body : {
-            interest
+            interest, allowance
         },
         query : {
             userid
@@ -17,7 +17,7 @@ export default async function Update(req, res) {
 
     let client = await newClient()
 
-    await client.query('UPDATE accounts SET interest = $2 WHERE id = $1', [userid, interest])
+    await client.query('UPDATE accounts SET interest = $2, allowance = $3 WHERE id = $1', [userid, interest, allowance])
     .catch( (error) => {
         console.log("ERROR",error)
         res.status(500).send("Error :(")

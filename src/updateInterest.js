@@ -1,3 +1,4 @@
+import moment from "moment";
 import { addTransaction } from "./FuneyPG";
 
 function monthDiff(d1, d2) {
@@ -50,36 +51,32 @@ WHERE
     })
 }
 
-// export async function updateInterest(next, client, viewid, props, value, interest) {
-//     if (!next) {
-//         // Create a new next date
-//         await client.query(`
-//         UPDATE accounts SET next = to_Date('01 ' || date_part('month', (SELECT current_timestamp)) + 1 || ' ' || date_part('year', (SELECT current_timestamp)), 'dd mm YYYY')
-//         WHERE view = $1
-//         `, [viewid])
-//             .catch(error => {
-//                 props.error = JSON.stringify(error);
-//             });
-//     } else {
-//         if (next < Date.now()) {
-//             // Add interest, based on month diff, and update the next value
-//             let owedMonths = monthDiff(next, new Date()) + 1;
-//             while (owedMonths > 0) {
-//                 props.account.value = props.account.value + (props.account.value * interest)
-//                 owedMonths -= 1
-//             }
-//             await client.query(`
-//             UPDATE accounts SET next = to_Date('01 ' || date_part('month', (SELECT current_timestamp)) + 1 || ' ' || date_part('year', (SELECT current_timestamp)), 'dd mm YYYY'),
-//             value = $2
-//             WHERE view = $1
-//             `, [viewid, props.account.value])
-//                 .catch(error => {
-//                     props.error = JSON.stringify(error);
-//                 });
-//         }
-//     }
-
-//     return props
-// }
+export async function updateAllowance(client, userIdOrView) {
+  return client.query(`
+SELECT MAX(a.id) as userid,
+  MAX(a.allowance) as allowance, 
+  MAX(t.ts) as last
+FROM accounts as a
+LEFT JOIN transactions as t ON t.account = a.id 
+  AND t.is_allowance
+WHERE a.id = $1
+  OR a.view = $1
+  `, [userIdOrView])
+  .catch(error => {
+      console.error('Error logging allowance', error)
+  })
+  .then(({rows}) => {
+      console.log("Allowance result", rows)
+      const {allowance, last, userid} = rows[0]
+      if (allowance <= 0) return
+      if (!last) {
+        return addTransaction(client, userid, "First Allowance", allowance, false, moment().day() === 0 ? moment().toDate() : moment.day(-7).toDate(), true)
+      }
+      if (moment().diff(last, 'days') >= 7) {
+        return addTransaction(client, userid, "Allowance", allowance, false, moment(last).add(7, 'days').toDate(), true)
+        .then(() => updateAllowance(client, userIdOrView))
+      }
+  })
+}
 
 export default updateInterest

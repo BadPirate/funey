@@ -1,13 +1,15 @@
 import { useState } from "react"
-import { Table } from "react-bootstrap"
+import { Button, Table } from "react-bootstrap"
 
 const TransactionsCard = ({transactions}) => {
-    return (<div>
+    const [expand, setExpand] = useState(false)
+    const showTransactions = expand ? transactions : transactions.slice(0,4) 
+    return (<div className="mb-3">
         <h2>Transactions:</h2>
         <Table>
             <tbody>
             {
-                transactions.map(({ts, value, description}) => {
+                showTransactions.map(({ts, value, description}) => {
                     const date = new Date(ts*1000)
                     return (
                         <tr>
@@ -20,6 +22,7 @@ const TransactionsCard = ({transactions}) => {
             }
             </tbody>
         </Table>
+        {!expand && transactions.length > 5 ? <Button onClick={() => setExpand(true)}>Show All</Button> : null}
     </div>)
 }
 

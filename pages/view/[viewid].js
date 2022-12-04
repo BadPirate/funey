@@ -1,6 +1,7 @@
 import { Card } from "react-bootstrap";
 import newClient, { getAccountInfo, getTransactions } from "../../src/FuneyPG"
 import TransactionsCard from "../../src/TransactionsCard";
+import updateInterest, { updateAllowance } from "../../src/updateInterest";
 
 const View = ({account: {value}, transactions}) => {
     return (
@@ -25,6 +26,8 @@ export async function getServerSideProps({query: {viewid}}) {
     let props = { viewid }
 
     await getAccountInfo(client, props, viewid)
+    await updateInterest(client, viewid)
+    await updateAllowance(client, viewid)
     await getTransactions(client, props, viewid)
 
     client.end()

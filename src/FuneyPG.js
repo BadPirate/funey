@@ -27,7 +27,7 @@ export async function newClient() {
 export async function getAccountInfo(client, props, userIdOrView) {
   return client.query(`
   SELECT 
-  a.interest, a.view, 
+  a.interest, a.view, a.allowance,
   (SELECT SUM(t.value) FROM transactions t WHERE t.account = a.id) as value
 FROM accounts a
 WHERE 
@@ -42,11 +42,11 @@ WHERE
   })
 }
 
-export async function addTransaction(client, userid, description, amount, isInterest = false, ts = new Date()) 
+export async function addTransaction(client, userid, description, amount, isInterest = false, ts = new Date(), is_allowance = false) 
 {
   return client.query(`
-    INSERT INTO transactions (account, description, value, is_interest, ts) 
-    VALUES ($1::text, $2::text, $3, $4, $5)`, [userid, description, amount, isInterest, ts])
+    INSERT INTO transactions (account, description, value, is_interest, ts, is_allowance) 
+    VALUES ($1::text, $2::text, $3, $4, $5, $6)`, [userid, description, amount, isInterest, ts, is_allowance])
 }
 
 export async function getTransactions(client, props, userId) {
