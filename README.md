@@ -1,6 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a web app for managing an online "ledger" for your little one.  Making money fun (funey?  My 5 year old suggested it).
 
-## Database
+Supports:
+
+*  Parent login on a per account basis (so that you can add / subtract money from the ledger)
+*  View only link for children (so they can see how much money they have)
+*  Automatic monthly interest calculation (So they can watch their funey grow)
+*  Automatic weekly allowance calculation
+*  Mobile device friendly display (Can be added as a home icon so they can view their totals from ipod / iphone / chromebook etc)
+
+You can create your own account and play around at:
+
+https://funey.badpirate.net
+
+Or host it yourself.
+
+## Warning
+
+This is for tracking a virtual balance, not the storage of actual money and while I've kept funey.badpirate.net 
+up for a number of years (and plan to keep hosting until my kids are in college), I
+make no guaruntee that something won't happen to hosting or storage, use at your own risk.
+
+## Privacy
+
+You can review the code yourself, but I've intentially left no place to store email addresses or account names,
+though the transactions themselves are not stored encrypted. If you host yourself I have no access to your data
+or transactions.
+
+If you choose to use funey.badpirate.net, I will not share the transaction details / descriptions / values with
+third parties, or try to associate them with accounts or IP addresses.  This is mostly a tool for myself that
+I believe might have value for other parents and so leave open in hopes that it can be a benefit.  There will be 
+no commercial or private use of your data.
+
+## Development
+
+### Setup DB
 
 You'll need to setup a Postgres SQL database to run locally:
 
@@ -8,35 +41,12 @@ You'll need to setup a Postgres SQL database to run locally:
 2.  Upload the default schema into your DB, `psql dbname < schema.dump`
 3.  Set `PGHOST`, `PGPORT`, `PGPASS` and `DB` values in `.env.local` (and your production env)
 
-## Getting Started
+### Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
 yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
