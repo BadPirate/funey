@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Card, Form, FormControl, InputGroup, Alert, CardDeck } from "react-bootstrap"
+import { Button, Card, Form, FormControl, InputGroup, Alert } from "react-bootstrap"
 import newClient, { getAccountInfo, getTransactions } from "../../src/FuneyPG"
 import TransactionsCard from "../../src/TransactionsCard"
 import { updateAllowance, updateInterest } from "../../src/updateInterest"
