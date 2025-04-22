@@ -71,4 +71,24 @@ Please use GitHub Issues to report bugs or suggest features.
 
 ## Linting
 
-- You can run `npx next lint` to check for lint errors (if ESLint is configured).
+- You can run `yarn lint` (alias for `next lint`) to check for lint errors and fix formatting issues.
+
+## Code of Conduct
+
+This project follows the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/). Please be respectful and inclusive.
+
+## Development Guidelines
+- **Frameworks & Languages**: Next.js with JavaScript (and optional TypeScript support).
+- **Linting**: ESLint configured with Next.js core-web-vitals, Airbnb, and TypeScript rules.
+  - Run `yarn lint` and fix any linting errors.
+  - The code style enforces no semicolons, 2-space indentation, and double quotes.
+- **Type Safety**: TypeScript is enabled in strict mode. While existing code is JavaScript, new files may use `.ts`/`.tsx`.
+- **File Structure**:
+  - `pages/` for Next.js pages.
+  - `src/` for reusable components and utilities.
+  - `styles/` for global CSS or theme overrides.
+  - `public/` for static assets like images and favicon.
+- **Testing**: Playwright Test suite is included.
+  - Install browser binaries: `npx playwright install`.
+  - Run full suite: `yarn test` (alias for `playwright test`).
+  - Common flags: `--headed`, `--debug`, `--project=chromium|firefox|webkit`.
