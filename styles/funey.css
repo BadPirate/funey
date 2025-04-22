@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Fredoka+One&display=swap');
+:root {
+    /* Color Palette */
+    --funey-primary: #0f3554;       /* Deep Navy for buttons and accents */
+    --funey-accent: #ffcc00;        /* Gold coin yellow */
+    --funey-bg: #fef6e4;            /* Soft parchment background */
+    --funey-sand: #f3c77e;          /* Beach sand */
+    --funey-ocean: #2e7bb4;         /* Ocean blue */
+    --funey-text-dark: #1d1d1d;     /* Text for contrast */
+    --funey-heading: #2d2d2d;       /* Headings */
+  
+    --bs-body-bg: var(--funey-bg);
+    --bs-body-color: var(--funey-text-dark);
+    --bs-primary: var(--funey-primary);
+    --bs-secondary: var(--funey-accent);
+    --bs-border-radius: 1rem;
+    --bs-font-sans-serif: "Comic Neue", "Fredoka One", "Arial Rounded MT Bold", sans-serif;
+  }
+  
+  /* Typography */
+  body {
+    background-color: var(--funey-bg);
+    font-family: var(--bs-font-sans-serif);
+  }
+  
+  h1, h2, h3, .display-1 {
+    color: var(--funey-heading);
+    font-weight: bold;
+    text-shadow: 1px 1px #fff4c2;
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    background-color: var(--funey-primary);
+    border-color: var(--funey-primary);
+    border-radius: 12px;
+    font-weight: bold;
+    padding: 0.75rem 1.25rem;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0a2b44;
+    transform: scale(1.05);
+  }
+  
+  .btn-secondary {
+    background-color: var(--funey-accent);
+    color: var(--funey-primary);
+    font-weight: bold;
+    border: none;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #fdd835;
+  }
+  
+  /* Hero Background */
+  .funey-hero {
+    background-image: url('/assets/funey-background.png');
+    background-size: cover;
+    background-position: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--funey-primary);
+  }
+  
+  /* Cards and Content */
+  .card {
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .navbar {
+    background-color: var(--funey-primary);
+    color: white;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white;
+  }
+  
+  /* Utility classes */
+  .funey-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--funey-accent);
+  }
+  
+  .funey-subtext {
+    font-size: 1.2rem;
+    color: var(--funey-primary);
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .funey-hero {
+      padding: 2rem 1rem;
+    }
+  
+    .funey-title {
+      font-size: 2rem;
+    }
+  }
+  
+/* Page background wrapper: tile horizontally but not vertically */
+/* Page background wrapper: tile horizontally but not vertically */
+.funey-background {
+  /* Layered backgrounds: sky+ocean above, sand below, both tiled horizontally */
+  background-image: url('/assets/background.png'), url('/assets/sand.png');
+  /* top layer: horizontal only, bottom layer: tile both axes to fill gap */
+  background-repeat: repeat-x, repeat;
+  background-position: top center, bottom center;
+  /* Use natural size for each layer, do not stretch */
+  background-size: auto, auto;
+  background-color: var(--funey-bg);
+  min-height: 100vh;
+}
