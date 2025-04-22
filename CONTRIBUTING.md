@@ -35,9 +35,9 @@ Open http://localhost:3000 in your browser to verify everything is working.
 
 ## Code Style
 
-- Indentation: 2 spaces
-- Strings: single quotes in JS; double quotes in JSX attributes
-- No semicolons at the end of statements
+- Indentation: 4 spaces (to match existing code)
+- Strings: use double quotes consistently
+- Semicolons: follow existing code style where used
 - Functional React components and Next.js conventions
 - Organize pages under `/pages`; shared components or utilities under `/src`
 - After any DB schema change, regenerate `schema.dump`
@@ -71,5 +71,4 @@ Please use GitHub Issues to report bugs or suggest features.
 
 ## Linting
 
-- You can run `npx next lint` to check for lint errors.
-  (Add an ESLint config if needed.)
+- You can run `npx next lint` to check for lint errors (if ESLint is configured).
