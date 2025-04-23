@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p $PORT",
-    "db:up": "cat schema.sqlite.sql | sqlite3 funey.db",
+    "db:up": "rm -f funey.db && cat schema.sqlite.sql | sqlite3 funey.db",
     "db:down": "rm -f funey.db"
   },
   "dependencies": {
