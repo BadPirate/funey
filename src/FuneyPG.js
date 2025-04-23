@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 export async function newClient() {
   // Load environment variables from .env.local or fall back to SQLite
-  const databaseUrl = process.env.DATABASE_URL || 'sqlite://funey.db';
+  const databaseUrl = process.env.DATABASE_URL || 'postgresql://localhost/funey.db';
   
   const client = new Client({
     connectionString: databaseUrl,
