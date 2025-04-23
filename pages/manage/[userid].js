@@ -17,10 +17,8 @@ const Manage = ({userid, transactions, account: {interest, value, view, allowanc
               <Card.Title>Parent Account Management</Card.Title>
             </Card.Header>
             <Card.Body>
-                <Card.Text as="div" className="mb-4">
-                  <h2>Account Balance: ${value.toFixed(2)}</h2>
-                </Card.Text>
-                <Card.Text as="div">
+                <h2 className="mb-4">Account Balance: ${value.toFixed(2)}</h2>
+                <div>
                   <TransactionsCard transactions={transactions}/>
                   <Form method="POST" action={`/api/manage/${userid}/transaction`}>
                     <InputGroup>
@@ -30,7 +28,7 @@ const Manage = ({userid, transactions, account: {interest, value, view, allowanc
                       <Button type="submit" name="action" value="add" variant="success">Add</Button>
                     </InputGroup>
                   </Form>
-                </Card.Text>              
+                </div>              
               </Card.Body>
               <Card.Body>
                 <Form method="POST" action={`/api/manage/${userid}/update`}>
