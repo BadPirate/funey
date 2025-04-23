@@ -1,23 +1,43 @@
 import { Client } from "pg";
+import sqlite3 from 'sqlite3';
+import { open } from 'sqlite';
 import 'dotenv/config';
 
 export async function newClient() {
-  // Load environment variables from .env.local or fall back to SQLite
-  const databaseUrl = process.env.DATABASE_URL || 'postgresql://localhost/funey.db';
-  
-  const client = new Client({
-    connectionString: databaseUrl,
-    ssl: process.env.NODE_ENV === 'production' ? {
-      rejectUnauthorized: false
-    } : false
-  });
+  const databaseUrl = process.env.DATABASE_URL || 'sqlite://funey.db';
 
-  try {
-    await client.connect();
-    return client;
-  } catch (error) {
-    console.error('Failed to connect to database:', error);
-    throw new Error('Unable to establish database connection');
+  if (databaseUrl.startsWith('sqlite://')) {
+    // SQLite connection
+    const dbPath = databaseUrl.replace('sqlite://', '');
+    const db = await open({
+      filename: dbPath,
+      driver: sqlite3.Database
+    });
+
+    // Wrap SQLite connection to match pg Client interface
+    return {
+      query: async (text, params = []) => {
+        const result = await db.all(text.replace(/\$\d+/g, '?'), params);
+        return { rows: result };
+      },
+      end: async () => await db.close()
+    };
+  } else {
+    // PostgreSQL connection
+    const client = new Client({
+      connectionString: databaseUrl,
+      ssl: process.env.NODE_ENV === 'production' ? {
+        rejectUnauthorized: false
+      } : false
+    });
+
+    try {
+      await client.connect();
+      return client;
+    } catch (error) {
+      console.error('Failed to connect to database:', error);
+      throw new Error('Unable to establish database connection');
+    }
   }
 }
 
@@ -61,4 +81,4 @@ export async function getTransactions(client, props, userId) {
   })
 }
 
-export default newClient
+export default newClient;
