@@ -64,7 +64,7 @@ export default function Home() {
               <Form.Label>Repeat Password</Form.Label>
               <Form.Control type="password" placeholder="Repeat Password" name="pass2" />
             </Form.Group>
-            <Button type="submit" variant="success" block>
+            <Button type="submit" variant="success" className="w-100">
               Create Account
             </Button>
           </Form>
