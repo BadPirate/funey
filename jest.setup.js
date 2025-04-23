@@ -4,3 +4,9 @@
 // Used for __tests__/testing-library.js
 // Learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom'
+
+// Enable jest-fetch-mock
+import fetchMock from 'jest-fetch-mock'
+fetchMock.enableMocks()
+
+// You can add other global setup here if needed
