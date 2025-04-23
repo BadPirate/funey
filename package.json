@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT"
+    "start": "next start -p $PORT",
+    "db:up": "initdb -D .db && pg_ctl -D .db -l logfile start && createdb funey && psql funey < schema.dump",
+    "db:down": "pg_ctl -D .db stop && rm -rf .db"
   },
   "dependencies": {
     "bootstrap": "^5.3.2",
