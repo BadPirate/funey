@@ -12,11 +12,11 @@ function monthDiff(d1, d2) {
 export async function updateInterest(client, userIdOrView) {
     return client.query(`
     SELECT 
-  a.id as userid, a.interest, tj.min, tj.sum, ij.max
+  a.id as userid, a.interest, tj.min, tj.sum as sum, ij.max
 FROM accounts a
 LEFT JOIN
 (
-   SELECT account, MIN(t.ts) as min, SUM(t.value) 
+   SELECT account, MIN(t.ts) as min, SUM(t.value) as sum
    FROM transactions t
    GROUP BY account
 ) tj ON tj.account = a.id
