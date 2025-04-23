@@ -1,6 +1,10 @@
 import { Client } from "pg";
 
 export async function newClient() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL environment variable is not set');
+  }
+
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl: process.env.NODE_ENV === 'production' ? {
@@ -8,8 +12,13 @@ export async function newClient() {
     } : false
   });
 
-  await client.connect();
-  return client;
+  try {
+    await client.connect();
+    return client;
+  } catch (error) {
+    console.error('Failed to connect to database:', error);
+    throw new Error('Unable to establish database connection');
+  }
 }
 
 export async function getAccountInfo(client, props, userIdOrView) {
