@@ -17,7 +17,7 @@ export default async function Update(req, res) {
 
     let client = await newClient()
 
-    await client.query('UPDATE accounts SET interest = $2, allowance = $3 WHERE id = $1', [userid, interest, allowance])
+    await client.query('UPDATE accounts SET interest = ?, allowance = ? WHERE id = ?', [interest, allowance, userid])
     .catch( (error) => {
         console.log("ERROR",error)
         res.status(500).send("Error :(")
