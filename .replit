@@ -1,0 +1,15 @@
+[workflows]
+runButton = "Development"
+
+[[workflows.workflow]]
+name = "Development"
+author = 41832294
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "yarn dev"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
