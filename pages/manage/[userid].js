@@ -17,10 +17,10 @@ const Manage = ({userid, transactions, account: {interest, value, view, allowanc
               <Card.Title>Parent Account Management</Card.Title>
             </Card.Header>
             <Card.Body>
-                <div className="mb-4">
+                <Card.Text as="div" className="mb-4">
                   <h2>Account Balance: ${value.toFixed(2)}</h2>
-                </div>
-                <Card.Text>
+                </Card.Text>
+                <Card.Text as="div">
                   <TransactionsCard transactions={transactions}/>
                   <Form method="POST" action={`/api/manage/${userid}/transaction`}>
                     <InputGroup>
