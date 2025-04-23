@@ -1,56 +1,48 @@
-This is a web app for managing an online "ledger" for your little one.  Making money fun (funey?  My 5 year old suggested it).
 
-Supports:
+# Funey - Making Money Fun for Kids
 
-*  Parent login on a per account basis (so that you can add / subtract money from the ledger)
-*  View only link for children (so they can see how much money they have)
-*  Automatic monthly interest calculation (So they can watch their funey grow)
-*  Automatic weekly allowance calculation
-*  Mobile device friendly display (Can be added as a home icon so they can view their totals from ipod / iphone / chromebook etc)
+A web app for managing a virtual "ledger" for your children. Making money fun (funey? My 5 year old suggested it).
 
-You can create your own account and play around at:
+## Features
 
-https://funey.badpirate.net
-
-Or host it yourself.
-
-## Warning
-
-This is for tracking a virtual balance, not the storage of actual money and while I've kept funey.badpirate.net 
-up for a number of years (and plan to keep hosting until my kids are in college), I
-make no guaruntee that something won't happen to hosting or storage, use at your own risk.
-
-## Privacy
-
-You can review the code yourself, but I've intentially left no place to store email addresses or account names,
-though the transactions themselves are not stored encrypted. If you host yourself I have no access to your data
-or transactions.
-
-If you choose to use funey.badpirate.net, I will not share the transaction details / descriptions / values with
-third parties, or try to associate them with accounts or IP addresses.  This is mostly a tool for myself that
-I believe might have value for other parents and so leave open in hopes that it can be a benefit.  There will be 
-no commercial or private use of your data.
+* Parent login for managing accounts (add/subtract money)
+* View-only link for children
+* Automatic monthly interest calculation
+* Automatic weekly allowance
+* Mobile-friendly display (can be added as a home icon)
 
 ## Development
 
-### Setup DB
+### Database Setup
 
-You'll need to setup a Postgres SQL database to run locally:
+1. Setup a Postgres SQL database
+2. Upload schema: `psql dbname < schema.dump`
+3. Configure environment in `.env.local`:
+   ```
+   PGHOST=0.0.0.0
+   PGPORT=5432
+   PGUSER=your_user
+   PGPASS=your_password
+   DB=your_database
+   ```
 
-1.  Setup a new database
-2.  Upload the default schema into your DB, `psql dbname < schema.dump`
-3.  Set `PGHOST`, `PGPORT`, `PGUSER`, `PGPASS`, and `DB` values in `.env.local` (and your production environment)
-
-### Getting Started
-
-First, run the development server:
+### Running Locally
 
 ```bash
+yarn install
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
+
+## Warning
+
+This is for tracking virtual balances, not actual money storage. While stable, use at your own risk.
+
+## Privacy
+
+No email addresses or account names are stored. Transactions are not encrypted but are private to your instance.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - See LICENSE file for details.
