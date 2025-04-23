@@ -68,18 +68,19 @@ export async function addTransaction(client, userid, description, amount, isInte
 
 export async function getTransactions(client, props, userId) {
   const timestampFunc = process.env.DATABASE_URL?.startsWith('file:') ? "strftime('%s', ts)" : "EXTRACT(EPOCH FROM ts)";
-  return client.query(`
-  SELECT id, description, ${timestampFunc} as ts, value 
-  FROM transactions 
-  WHERE account = $1 OR account IN (SELECT id FROM accounts WHERE view = $2)
-  ORDER BY ts DESC
-  LIMIT 20`, [userId, userId])
-  .catch((error) => {
-      props.error = error
-  })
-  .then((result) => {
-    props.transactions = result.rows || []
-  })
+  try {
+    const result = await client.query(`
+    SELECT id, description, ${timestampFunc} as ts, value 
+    FROM transactions 
+    WHERE account = $1 OR account IN (SELECT id FROM accounts WHERE view = $2)
+    ORDER BY ts DESC
+    LIMIT 20`, [userId, userId]);
+    props.transactions = result.rows || [];
+  } catch (error) {
+    console.error('Error fetching transactions:', error);
+    props.error = error;
+    props.transactions = [];
+  }
 }
 
 export default newClient;
