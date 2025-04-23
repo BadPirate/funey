@@ -55,7 +55,7 @@ WHERE
     props.error = error
   })
   .then((result) => {
-    props.account = result.rows[0]
+    props.account = result.rows[0] || null
   })
 }
 
