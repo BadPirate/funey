@@ -48,8 +48,8 @@ export async function getAccountInfo(client, props, userIdOrView) {
   (SELECT COALESCE(SUM(t.value), 0) FROM transactions t WHERE t.account = a.id) as value
 FROM accounts a
 WHERE 
-  a.id = ? 
-  OR a.view = ?`,
+  a.id = $1 
+  OR a.view = $1`,
   [userIdOrView])
   .catch((error) => {
     props.error = error
