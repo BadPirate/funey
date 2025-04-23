@@ -11,15 +11,13 @@ const TransactionsCard = ({transactions}) => {
             {
                 showTransactions.map(({ts, value, description}, index) => {
                     const date = new Date(Number(ts) * 1000)
-                    // Force UTC to avoid timezone mismatches
-                    const utcStr = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-                        .toLocaleDateString('en-us', { 
-                          weekday: "short", 
-                          year: "numeric", 
-                          month: "short", 
-                          day: "numeric",
-                          timeZone: 'UTC'
-                        })
+                    const utcStr = date.toLocaleDateString('en-us', { 
+                        weekday: "short", 
+                        year: "numeric", 
+                        month: "short", 
+                        day: "numeric",
+                        timeZone: 'UTC'
+                    })
                     return (
                         <tr key={`${ts}-${index}`}>
                             <td>{utcStr}</td>
