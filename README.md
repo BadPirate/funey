@@ -1,15 +1,14 @@
-
 # Funey - Making Money Fun for Kids
 
 A web app for managing a virtual "ledger" for your children. Making money fun (funey? My 5 year old suggested it).
 
 ## Features
 
-* Parent login for managing accounts (add/subtract money)
-* View-only link for children
-* Automatic monthly interest calculation
-* Automatic weekly allowance
-* Mobile-friendly display (can be added as a home icon)
+- Parent login for managing accounts (add/subtract money)
+- View-only link for children
+- Automatic monthly interest calculation
+- Automatic weekly allowance
+- Mobile-friendly display (can be added as a home icon)
 
 ## Development
 
@@ -46,3 +45,5 @@ No email addresses or account names are stored. Transactions are not encrypted b
 ## License
 
 MIT License - See LICENSE file for details.
+
+Workspace Check: This line was added to verify workspace sharing.

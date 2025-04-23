@@ -41,6 +41,7 @@ Thank you for your interest in contributing to Funey!
 ## Commit Messages
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
 - `feat:` new feature
 - `fix:` bug fix
 - `docs:` documentation changes
