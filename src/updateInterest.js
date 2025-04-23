@@ -28,9 +28,9 @@ LEFT JOIN
   GROUP BY account
 ) ij on ij.account = a.id
 WHERE 
-  a.id = $1::text 
-  OR a.view = $1::text
-    `, [userIdOrView])
+  a.id = ? 
+  OR a.view = ?
+    `, [userIdOrView, userIdOrView])
     .catch(error => {
         console.error('Error logging interest', error)
     })
