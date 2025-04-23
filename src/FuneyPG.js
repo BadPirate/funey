@@ -2,14 +2,11 @@ import { Client } from "pg";
 import 'dotenv/config';
 
 export async function newClient() {
-  // Load environment variables from .env.local or .env.local.EXAMPLE
-  const databaseUrl = process.env.DATABASE_URL;
-  if (!databaseUrl) {
-    throw new Error('DATABASE_URL environment variable is not set. Please copy .env.local.EXAMPLE to .env.local and set your database URL.');
-  }
-
+  // Load environment variables from .env.local or fall back to SQLite
+  const databaseUrl = process.env.DATABASE_URL || 'sqlite://funey.db';
+  
   const client = new Client({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: databaseUrl,
     ssl: process.env.NODE_ENV === 'production' ? {
       rejectUnauthorized: false
     } : false
