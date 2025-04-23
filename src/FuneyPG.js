@@ -45,7 +45,7 @@ export async function getAccountInfo(client, props, userIdOrView) {
   return client.query(`
   SELECT 
   a.interest, a.view, a.allowance,
-  (SELECT SUM(t.value) FROM transactions t WHERE t.account = a.id) as value
+  (SELECT COALESCE(SUM(t.value), 0) FROM transactions t WHERE t.account = a.id) as value
 FROM accounts a
 WHERE 
   a.id = ? 
@@ -68,7 +68,7 @@ export async function addTransaction(client, userid, description, amount, isInte
 
 export async function getTransactions(client, props, userId) {
   return client.query(`
-  SELECT id, description, extract(epoch from ts) as ts, value 
+  SELECT id, description, strftime('%s', ts) as ts, value 
   FROM transactions 
   WHERE account = ? OR account IN (SELECT id FROM accounts WHERE view = ?)
   ORDER BY ts DESC
