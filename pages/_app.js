@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/funey.css'
 import Head from 'next/head'
 import Layout from '../src/components/Layout'
+import ErrorBoundary from '../src/components/ErrorBoundary'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -14,7 +15,9 @@ function MyApp({ Component, pageProps }) {
       <link rel="manifest" href="/site.webmanifest"/>
     </Head>
     <Layout>
-      <Component {...pageProps} />
+      <ErrorBoundary>
+        <Component {...pageProps} />
+      </ErrorBoundary>
     </Layout>
     </>
   )
