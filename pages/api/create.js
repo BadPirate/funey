@@ -34,6 +34,6 @@ export default async function Create(req, res) {
   INSERT INTO transactions (account, description, value) VALUES ($1::text, 'Initial Setup', 0)`,
   [shaKey])
   client.end()
-  res.redirect(`/manage/${shaKey}`)
+  res.redirect(302, `/manage/${shaKey}`)
 }
 

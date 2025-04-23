@@ -11,5 +11,5 @@ export default async function Create(req, res) {
     let keyBase = user + "&&" + pass
     let userid = sha256(keyBase)
 
-    res.redirect(`/manage/${userid}`)
+    res.redirect(302, `/manage/${userid}`)
 }
