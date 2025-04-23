@@ -71,7 +71,14 @@ export default function Home() {
         </div>
       </Collapse>
       <p>
-        <b>Funey</b> is a website that makes Mo<b>ney</b> <b>Fun</b> :)
+        <b>Funey</b>
+        {' '}
+        is a website that makes Mo
+        <b>ney</b>
+        {' '}
+        <b>Fun</b>
+        {' '}
+        :)
       </p>
       <p>
         To get started, create a fake "bank" account for your little ones,

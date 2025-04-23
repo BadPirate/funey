@@ -1,15 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import sha256 from "sha256"
-import newClient from "../../src/FuneyPG"
+import sha256 from 'sha256'
+import newClient from '../../src/FuneyPG'
 
 export default async function Create(req, res) {
-  let {
-    body : {
+  const {
+    body: {
       pass,
       pass2,
-      user
-    }
+      user,
+    },
   } = req
 
   if (pass != pass2) {
@@ -17,23 +17,24 @@ export default async function Create(req, res) {
     return
   }
 
-  let client = await newClient()
+  const client = await newClient()
 
-  let keyBase = user + "&&" + pass
-  let shaKey = sha256(keyBase)
+  const keyBase = `${user}&&${pass}`
+  const shaKey = sha256(keyBase)
 
   await client.query('INSERT INTO accounts (id) VALUES ($1::text)', [shaKey])
-  .catch( error => {
-    if (error.code == 23505) {
-      res.status(500).send("Account already exists.")
-      return
-    }
-    res.status(500).send(`Error - ${error.detail}`)
-  })
-  await client.query(`
+    .catch((error) => {
+      if (error.code == 23505) {
+        res.status(500).send('Account already exists.')
+        return
+      }
+      res.status(500).send(`Error - ${error.detail}`)
+    })
+  await client.query(
+    `
   INSERT INTO transactions (account, description, value) VALUES ($1::text, 'Initial Setup', 0)`,
-  [shaKey])
+    [shaKey],
+  )
   client.end()
   res.redirect(`/manage/${shaKey}`)
 }
-

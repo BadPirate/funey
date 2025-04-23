@@ -1,15 +1,15 @@
-import sha256 from "sha256"
+import sha256 from 'sha256'
 
 export default async function Create(req, res) {
-    let {
-      body : {
-        pass,
-        user
-      }
-    } = req
+  const {
+    body: {
+      pass,
+      user,
+    },
+  } = req
 
-    let keyBase = user + "&&" + pass
-    let userid = sha256(keyBase)
+  const keyBase = `${user}&&${pass}`
+  const userid = sha256(keyBase)
 
-    res.redirect(`/manage/${userid}`)
+  res.redirect(`/manage/${userid}`)
 }
