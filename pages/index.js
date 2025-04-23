@@ -43,7 +43,7 @@ export default function Home() {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Password" name="pass" />
             </Form.Group>
-            <Button type="submit" block>
+            <Button type="submit" className="d-block w-100">
               Login
             </Button>
           </Form>

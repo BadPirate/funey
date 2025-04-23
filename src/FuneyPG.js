@@ -4,11 +4,11 @@ import { open } from 'sqlite';
 import 'dotenv/config';
 
 export async function newClient() {
-  const databaseUrl = process.env.DATABASE_URL || 'sqlite://funey.db';
+  const databaseUrl = process.env.DATABASE_URL || 'file:funey.db';
 
-  if (databaseUrl.startsWith('sqlite://')) {
+  if (databaseUrl.startsWith('file:')) {
     // SQLite connection
-    const dbPath = databaseUrl.replace('sqlite://', '');
+    const dbPath = databaseUrl.replace('file:', '');
     const db = await open({
       filename: dbPath,
       driver: sqlite3.Database
