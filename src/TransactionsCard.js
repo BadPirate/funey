@@ -10,10 +10,19 @@ const TransactionsCard = ({transactions}) => {
             <tbody>
             {
                 showTransactions.map(({ts, value, description}, index) => {
-                    const date = new Date(ts*1000)
+                    const date = new Date(Number(ts) * 1000)
+                    // Force UTC to avoid timezone mismatches
+                    const utcStr = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+                        .toLocaleDateString('en-us', { 
+                          weekday: "short", 
+                          year: "numeric", 
+                          month: "short", 
+                          day: "numeric",
+                          timeZone: 'UTC'
+                        })
                     return (
                         <tr key={`${ts}-${index}`}>
-                            <td>{date.toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric"}) }</td>
+                            <td>{utcStr}</td>
                             <td>{description}</td>
                             <td>{value >= 0 ? `\$${value.toFixed(2)}` : `\- $${-(value).toFixed(2)}`}</td>
                         </tr>
