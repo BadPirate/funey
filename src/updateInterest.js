@@ -1,4 +1,3 @@
-import moment from 'moment'
 import { addTransaction } from './FuneyPG'
 
 function monthDiff(d1, d2) {
@@ -9,7 +8,7 @@ function monthDiff(d1, d2) {
   return months <= 0 ? 0 : months
 }
 
-export async function updateInterest(client, userIdOrView) {
+const updateInterest = async (client, userid) => {
   return client.query(`
     SELECT 
   a.id as userid, a.interest, tj.min, tj.sum, ij.max
@@ -30,7 +29,7 @@ LEFT JOIN
 WHERE 
   a.id = $1::text 
   OR a.view = $1::text
-    `, [userIdOrView])
+    `, [userid])
     .catch((error) => {
       console.error('Error logging interest', error)
     })
@@ -47,7 +46,7 @@ WHERE
         return
       }
       return addTransaction(client, userid, 'Interest payment', sum * interest, true, next)
-        .then((result) => updateInterest(client, userIdOrView))
+        .then((result) => updateInterest(client, userid))
     })
 }
 

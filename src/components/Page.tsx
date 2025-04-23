@@ -1,12 +1,17 @@
-import Head from 'next/head'
+
+import type { ReactNode } from 'react'
+import Layout from './Layout'
 import RootNav from './RootNav'
 
-const Page = ({ title, children }: {title: string, children: React.ReactNode}) => (
-  <RootNav>
-    <Head>
-      <title>{title}</title>
-    </Head>
+interface PageProps {
+  children: ReactNode
+}
+
+const Page = ({ children }: PageProps) => (
+  <Layout>
+    <RootNav />
     {children}
-  </RootNav>
+  </Layout>
 )
+
 export default Page

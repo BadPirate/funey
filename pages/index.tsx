@@ -1,10 +1,12 @@
+
+import type { NextPage } from 'next'
 import Page from '../src/components/Page'
 import WelcomeCard from '../src/cards/WelcomeCard'
 
-const Index = () => (
-  <Page title="Welcome to Campfire">
+const Home: NextPage = () => (
+  <Page>
     <WelcomeCard />
   </Page>
 )
 
-export default Index
+export default Home

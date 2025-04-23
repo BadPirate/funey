@@ -1,9 +1,10 @@
-import '../styles/bootstrap.min.css'
-import '../styles/global.css'
 
 import type { AppProps } from 'next/app'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import '../styles/globals.css'
 
-// eslint-disable-next-line react/jsx-props-no-spreading
-const App = ({ Component, pageProps }: AppProps) => <Component {...pageProps} />
+const MyApp = ({ Component, pageProps }: AppProps) => (
+  <Component {...pageProps} />
+)
 
-export default App
+export default MyApp
