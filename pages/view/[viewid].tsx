@@ -2,9 +2,8 @@ import React from 'react'
 import type { NextPage, GetServerSideProps } from 'next'
 import type { Transaction, Account } from '../../src/types'
 import { Card } from 'react-bootstrap'
-import { newClient, getAccountInfo, getTransactions } from '../../src/FuneyPG'
+import { getAccountInfo, getTransactions, updateInterest, updateAllowance } from '../../src/db'
 import TransactionsCard from '../../src/TransactionsCard'
-import { updateInterest, updateAllowance } from '../../src/updateInterest'
 
 interface ViewProps {
   account: Account | null
@@ -40,15 +39,17 @@ const View: NextPage<ViewProps> = ({ account, transactions }) => {
 export const getServerSideProps: GetServerSideProps<ViewProps> = async ({ query }) => {
   const { viewid } = query
   const id = Array.isArray(viewid) ? viewid[0] : viewid
-  const client = await newClient()
   const props: ViewProps = { account: null, transactions: [] }
   if (id) {
-    await getAccountInfo(client, props, id)
-    await updateInterest(client, id)
-    await updateAllowance(client, id)
-    await getTransactions(client, props, id)
+    await updateInterest(id)
+    await updateAllowance(id)
+    const account = await getAccountInfo(id)
+    if (account) {
+      const transactions = await getTransactions(id)
+      props.account = account
+      props.transactions = transactions
+    }
   }
-  await client.end()
   return { props }
 }
 

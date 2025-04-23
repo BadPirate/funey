@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { newClient } from '../../../../src/FuneyPG'
+import { updateAccountSettings } from '../../../../src/db'
 
 type UpdateRequest = NextApiRequest & {
   body: {
@@ -19,19 +19,12 @@ export default async function handler(req: UpdateRequest, res: NextApiResponse) 
     res.status(400).send('Unknown user')
     return
   }
-  const client = await newClient()
   const interest = parseFloat(interestRaw)
   const allowance = parseFloat(allowanceRaw)
   try {
-    await client.query('UPDATE accounts SET interest = ?, allowance = ? WHERE id = ?', [
-      interest,
-      allowance,
-      userid,
-    ])
+    await updateAccountSettings(userid, interest, allowance)
     res.redirect(302, `/manage/${userid}`)
   } catch (error) {
     res.status(500).send('Error updating account')
-  } finally {
-    await client.end()
   }
 }

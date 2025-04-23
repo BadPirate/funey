@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import type { NextPage, GetServerSideProps } from 'next'
 import type { Transaction, Account } from '../../src/types'
 import { Button, Card, Form, FormControl, InputGroup, Alert } from 'react-bootstrap'
-import { newClient, getAccountInfo, getTransactions } from '../../src/FuneyPG'
+import { getAccountInfo, getTransactions, updateInterest, updateAllowance } from '../../src/db'
 import TransactionsCard from '../../src/TransactionsCard'
-import { updateInterest, updateAllowance } from '../../src/updateInterest'
 
 interface ManageProps {
   userid: string
@@ -86,23 +85,16 @@ export const getServerSideProps: GetServerSideProps<ManageProps> = async ({ quer
   if (!id) {
     return { notFound: true }
   }
-  const client = await newClient()
-  const props = {
-    userid: id,
-    transactions: [] as Transaction[],
-    account: { interest: 0, value: 0, view: '', allowance: 0 },
+  // Apply pending interest and allowance
+  await updateInterest(id)
+  await updateAllowance(id)
+  // Fetch account and transactions
+  const account = await getAccountInfo(id)
+  if (!account) {
+    return { notFound: true }
   }
-  try {
-    await getAccountInfo(client, props, id)
-    await updateInterest(client, id)
-    await updateAllowance(client, id)
-    await getTransactions(client, props, id)
-  } catch (error) {
-    console.error('Error in getServerSideProps:', error)
-  } finally {
-    await client.end()
-  }
-  return { props }
+  const transactions = await getTransactions(id)
+  return { props: { userid: id, account, transactions } }
 }
 
 export default Manage

@@ -9,9 +9,12 @@
     "start": "next start -p $PORT",
     "lint": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css,scss,html}\" && eslint -c .eslintrc.js . --ext .js,.jsx,.ts,.tsx --fix",
     "db:up": "rm -f funey.db && cat schema.sqlite.sql | sqlite3 funey.db",
-    "db:down": "rm -f funey.db"
+    "db:down": "rm -f funey.db",
+    "db:clean": "yarn build:prisma-schemas && node scripts/db-clean.js",
+    "build:prisma-schemas": "node scripts/build-schemas.js"
   },
   "dependencies": {
+    "@prisma/client": "^6.6.0",
     "bootstrap": "^5.3.2",
     "dotenv": "^16.5.0",
     "moment": "^2.29.4",
@@ -25,11 +28,13 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "@types/node": "22.14.1",
     "eslint": "8.57.0",
     "eslint-config-next": "^15.3.1",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "prettier": "^3.5.3",
+    "prisma": "^6.6.0",
     "typescript": "^5.8.3"
   }
 }

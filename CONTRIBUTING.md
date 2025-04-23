@@ -13,17 +13,26 @@ Thank you for your interest in contributing to Funey!
    ```bash
    yarn install
    ```
-3. Set up the database:
-   - Create a Postgres database
-   - Load schema: `psql <dbname> < schema.dump`
-4. Create `.env.local`:
+3. Configure environment:
+   1. Copy the example env file and edit:
+      ```bash
+      cp .env.local.EXAMPLE .env.local
+      ```
+   2. In `.env.local`, set `DATABASE_URL`:
+      - For local SQLite development:
+        ```ini
+        DATABASE_URL=file:./dev.db
+        ```
+      - For PostgreSQL development:
+        ```ini
+        DATABASE_URL=postgresql://user:pass@localhost:5432/funey
+        ```
+4. Initialize the database:
    ```bash
-   PGHOST=0.0.0.0
-   PGPORT=5432
-   PGPASS=<your_password>
-   DB=<your_database_name>
+   yarn build:prisma-schemas
+   yarn db:clean
    ```
-5. Start development:
+5. Start development server:
    ```bash
    yarn dev
    ```

@@ -2,7 +2,8 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import sha256 from 'sha256'
-import { newClient } from '../../src/FuneyPG'
+import crypto from 'crypto'
+import { createAccount, addTransaction } from '../../src/db'
 
 type CreateRequest = NextApiRequest & {
   body: {
@@ -18,22 +19,18 @@ export default async function handler(req: CreateRequest, res: NextApiResponse) 
     res.status(400).send("Passwords do't match")
     return
   }
-  const client = await newClient()
   const shaKey = sha256(`${user}&&${pass}`)
   try {
-    await client.query('INSERT INTO accounts (id) VALUES (?)', [shaKey])
-    await client.query(
-      `INSERT INTO transactions (account, description, value) VALUES (?, 'Initial Setup', 0)`,
-      [shaKey],
-    )
-    await client.end()
+    // Create account and initial setup transaction
+    const account = await createAccount(shaKey)
+    await addTransaction(account.id, 'Initial Setup', 0)
     res.redirect(302, `/manage/${shaKey}`)
   } catch (error: any) {
-    await client.end()
-    if (error.code === '23505') {
+    // Prisma unique constraint error code P2002
+    if (error.code === 'P2002') {
       res.status(409).send('Account already exists.')
     } else {
-      res.status(500).send(`Error - ${(error.detail as string) || error.message}`)
+      res.status(500).send(`Error - ${error.message}`)
     }
   }
 }

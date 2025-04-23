@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { newClient, addTransaction } from '../../../../src/FuneyPG'
+import { addTransaction } from '../../../../src/db'
 
 type TransactionRequest = NextApiRequest & {
   body: {
@@ -20,7 +20,7 @@ export default async function handler(req: TransactionRequest, res: NextApiRespo
     res.status(400).send('Unknown user')
     return
   }
-  const client = await newClient()
+  // Use Prisma to add transaction
   let amount = typeof amtRaw === 'string' ? parseFloat(amtRaw) : amtRaw
   if (action === 'subtract' && amount > 0) {
     amount = -amount
@@ -28,11 +28,9 @@ export default async function handler(req: TransactionRequest, res: NextApiRespo
     amount = -amount
   }
   try {
-    await addTransaction(client, userid, description, amount)
+    await addTransaction(userid, description, amount)
     res.redirect(302, `/manage/${userid}`)
   } catch (error) {
     res.status(500).send('Error processing transaction')
-  } finally {
-    await client.end()
   }
 }
