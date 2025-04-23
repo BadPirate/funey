@@ -73,17 +73,18 @@ const Manage = ({userid, transactions, account: {interest, value, view, allowanc
 export async function getServerSideProps({query: {userid}}) {  
     const client = await newClient()
     let props = { userid }
-
-    await getAccountInfo(client, props, userid)
-    .then(_ => {
-      return updateInterest(client, userid)
-    })
-    .then(() => updateAllowance(client, userid))
-    .then(_ => {
-      return getTransactions(client, props, userid)
-    })
-
-    client.end()
+    
+    try {
+      await getAccountInfo(client, props, userid);
+      await updateInterest(client, userid);
+      await updateAllowance(client, userid);
+      await getTransactions(client, props, userid);
+    } catch (error) {
+      console.error('Error in getServerSideProps:', error);
+      props.error = error.message; // Only pass the message string
+    } finally {
+      await client.end();
+    }
 
     return { props }
   }
