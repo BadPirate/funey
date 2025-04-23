@@ -1,8 +1,11 @@
 import { Client } from "pg";
+import 'dotenv/config';
 
 export async function newClient() {
-  if (!process.env.DATABASE_URL) {
-    throw new Error('DATABASE_URL environment variable is not set');
+  // Load environment variables from .env.local or .env.local.EXAMPLE
+  const databaseUrl = process.env.DATABASE_URL;
+  if (!databaseUrl) {
+    throw new Error('DATABASE_URL environment variable is not set. Please copy .env.local.EXAMPLE to .env.local and set your database URL.');
   }
 
   const client = new Client({
