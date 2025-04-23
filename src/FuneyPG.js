@@ -63,14 +63,15 @@ export async function addTransaction(client, userid, description, amount, isInte
 {
   return client.query(`
     INSERT INTO transactions (account, description, value, is_interest, ts, is_allowance) 
-    VALUES (?, ?, ?, ?, ?, ?)`, [userid, description, amount, isInterest, ts, is_allowance])
+    VALUES ($1, $2, $3, $4, $5, $6)`, [userid, description, amount, isInterest, ts, is_allowance])
 }
 
 export async function getTransactions(client, props, userId) {
+  const timestampFunc = process.env.DATABASE_URL?.startsWith('file:') ? "strftime('%s', ts)" : "EXTRACT(EPOCH FROM ts)";
   return client.query(`
-  SELECT id, description, strftime('%s', ts) as ts, value 
+  SELECT id, description, ${timestampFunc} as ts, value 
   FROM transactions 
-  WHERE account = ? OR account IN (SELECT id FROM accounts WHERE view = ?)
+  WHERE account = $1 OR account IN (SELECT id FROM accounts WHERE view = $2)
   ORDER BY ts DESC
   LIMIT 20`, [userId, userId])
   .catch((error) => {
