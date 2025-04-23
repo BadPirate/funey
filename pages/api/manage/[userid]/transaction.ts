@@ -1,6 +1,6 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { default as newClient, addTransaction } from '../../../../src/FuneyPG'
+import newClient, { addTransaction } from '../../../../src/FuneyPG'
 
 export default async function Update(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const {

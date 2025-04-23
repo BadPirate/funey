@@ -1,3 +1,4 @@
+
 import type { GetServerSideProps } from 'next'
 import { Card } from 'react-bootstrap'
 import newClient, { getAccountInfo, getTransactions } from '../../src/FuneyPG'

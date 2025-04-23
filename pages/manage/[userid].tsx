@@ -1,11 +1,12 @@
+
 import { useEffect, useState } from 'react'
 import type { GetServerSideProps } from 'next'
 import {
   Button, Card, Form, FormControl, InputGroup, Alert,
 } from 'react-bootstrap'
 import newClient, { getAccountInfo, getTransactions } from '../../src/FuneyPG'
-import TransactionsCard from '../../src/TransactionsCard.tsx'
-import { default as updateInterest, updateAllowance } from '../../src/updateInterest'
+import TransactionsCard from '../../src/TransactionsCard'
+import updateInterest, { updateAllowance } from '../../src/updateInterest'
 
 interface AccountInfo {
   interest: number
