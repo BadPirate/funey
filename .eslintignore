@@ -8,3 +8,5 @@ public/
 attached_assets/
 __tests__/
 **/.eslintrc.js
+jest.config.js
+jest.setup.js
