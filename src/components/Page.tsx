@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import Layout from './Layout.tsx'
+import Layout from './Layout'
 import RootNav from './RootNav'
 
 interface PageProps {

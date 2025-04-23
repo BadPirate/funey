@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from 'next'
 import { Card } from 'react-bootstrap'
-import newClient, { getAccountInfo, getTransactions } from '../../src/FuneyPG'
-import TransactionsCard from '../../src/TransactionsCard'
+import { default as client, getAccountInfo, getTransactions } from '../../src/FuneyPG'
+import TransactionsCard from '../../src/TransactionsCard.tsx'
 import updateInterest, { updateAllowance } from '../../src/updateInterest'
 
 interface ViewProps {
