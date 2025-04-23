@@ -1,4 +1,3 @@
-
 import type { NextApiRequest, NextApiResponse } from 'next'
 import newClient from '../../../../src/FuneyPG'
 

@@ -1,4 +1,3 @@
-
 import { Client, QueryResult } from 'pg'
 
 interface AccountProps {
