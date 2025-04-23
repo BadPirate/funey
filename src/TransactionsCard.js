@@ -9,10 +9,10 @@ const TransactionsCard = ({transactions}) => {
         <Table>
             <tbody>
             {
-                showTransactions.map(({ts, value, description}) => {
+                showTransactions.map(({ts, value, description}, index) => {
                     const date = new Date(ts*1000)
                     return (
-                        <tr>
+                        <tr key={`${ts}-${index}`}>
                             <td>{date.toLocaleDateString('en-us', { weekday:"short", year:"numeric", month:"short", day:"numeric"}) }</td>
                             <td>{description}</td>
                             <td>{value >= 0 ? `\$${value.toFixed(2)}` : `\- $${-(value).toFixed(2)}`}</td>
