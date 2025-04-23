@@ -69,15 +69,30 @@ export async function addTransaction(client, userid, description, amount, isInte
 export async function getTransactions(client, props, userId) {
   try {
     const isFile = process.env.DATABASE_URL?.startsWith('file:');
-    const query = isFile 
-      ? `SELECT id, description, strftime('%s', ts) as ts, value 
-         FROM transactions 
-         WHERE account = ? OR account IN (SELECT id FROM accounts WHERE view = ?)`
-      : `SELECT id, description, EXTRACT(EPOCH FROM ts)::bigint as ts, value 
-         FROM transactions 
-         WHERE account = $1 OR account IN (SELECT id FROM accounts WHERE view = $2)`;
-    const result = await client.query(query + ` ORDER BY ts DESC LIMIT 20`, [userId, userId]);
-    props.transactions = result.rows || [];
+    let query;
+    if (isFile) {
+      query = `
+        SELECT t.id, t.description, 
+               CAST(strftime('%s', t.ts) AS INTEGER) as ts,
+               t.value 
+        FROM transactions t
+        WHERE t.account = ? 
+           OR t.account IN (SELECT id FROM accounts WHERE view = ?)
+        ORDER BY t.ts DESC LIMIT 20
+      `;
+    } else {
+      query = `
+        SELECT t.id, t.description,
+               EXTRACT(EPOCH FROM t.ts)::bigint as ts,
+               t.value 
+        FROM transactions t
+        WHERE t.account = $1 
+           OR t.account IN (SELECT id FROM accounts WHERE view = $2)
+        ORDER BY t.ts DESC LIMIT 20
+      `;
+    }
+    const result = await client.query(query, [userId, userId]);
+    props.transactions = Array.isArray(result.rows) ? result.rows : [];
   } catch (error) {
     console.error('Error fetching transactions:', error);
     props.transactions = [];
