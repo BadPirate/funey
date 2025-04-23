@@ -1,5 +1,6 @@
+
 import type { NextApiRequest, NextApiResponse } from 'next'
-import newClient, { addTransaction } from '../../../../src/FuneyPG'
+import { default as newClient, addTransaction } from '../../../../src/FuneyPG'
 
 export default async function Update(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const {
@@ -27,12 +28,12 @@ export default async function Update(req: NextApiRequest, res: NextApiResponse):
     finalAmount *= -1
   }
 
-  await addTransaction(client, userid as string, description, finalAmount)
-    .catch((error) => {
-      res.status(500).send('Error :(')
-    })
-    .then(() => {
-      res.redirect(`/manage/${userid}`)
-    })
-    .finally(() => client.end())
+  try {
+    await addTransaction(client, userid as string, description, finalAmount)
+    res.redirect(`/manage/${userid}`)
+  } catch (err) {
+    res.status(500).send('Error :(')
+  } finally {
+    client.end()
+  }
 }

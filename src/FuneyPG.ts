@@ -1,3 +1,4 @@
+
 import { Client, QueryResult } from 'pg'
 
 interface AccountProps {
@@ -17,23 +18,20 @@ interface AccountProps {
 }
 
 export async function newClient(): Promise<Client> {
-  let client: Client
-  if (process.env.PGHOST) {
-    client = new Client({
+  const client = process.env.PGHOST
+    ? new Client({
       host: process.env.PGHOST,
       port: Number(process.env.PGPORT),
       user: process.env.PGUSER,
       password: process.env.PGPASS,
       database: process.env.DB,
     })
-  } else {
-    client = new Client({
+    : new Client({
       connectionString: process.env.DOKKU_POSTGRES_AQUA_URL,
       ssl: {
         rejectUnauthorized: false,
       },
     })
-  }
 
   await client.connect()
   return client
@@ -43,7 +41,7 @@ export async function getAccountInfo(
   client: Client,
   props: AccountProps,
   userIdOrView: string,
-): Promise<void> {
+): Promise<AccountProps> {
   try {
     const result = await client.query(
       `
@@ -56,9 +54,9 @@ export async function getAccountInfo(
         OR a.view = $1::text`,
       [userIdOrView],
     )
-    props.account = result.rows[0]
+    return { ...props, account: result.rows[0] }
   } catch (error) {
-    props.error = error as Error
+    return { ...props, error: error as Error }
   }
 }
 
@@ -82,7 +80,7 @@ export async function getTransactions(
   client: Client,
   props: AccountProps,
   userId: string,
-): Promise<void> {
+): Promise<AccountProps> {
   try {
     const result = await client.query(
       `SELECT id, description, extract(epoch from ts) as ts, value 
@@ -92,9 +90,9 @@ export async function getTransactions(
        LIMIT 20`,
       [userId],
     )
-    props.transactions = result.rows
+    return { ...props, transactions: result.rows }
   } catch (error) {
-    props.error = error as Error
+    return { ...props, error: error as Error }
   }
 }
 
