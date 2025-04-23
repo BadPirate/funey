@@ -1,4 +1,3 @@
-
 import { Client, QueryResult } from 'pg'
 
 interface AccountProps {
@@ -43,7 +42,7 @@ export async function newClient(): Promise<Client> {
 export async function getAccountInfo(
   client: Client,
   props: AccountProps,
-  userIdOrView: string
+  userIdOrView: string,
 ): Promise<void> {
   try {
     const result = await client.query(
@@ -55,7 +54,7 @@ export async function getAccountInfo(
       WHERE 
         a.id = $1::text 
         OR a.view = $1::text`,
-      [userIdOrView]
+      [userIdOrView],
     )
     props.account = result.rows[0]
   } catch (error) {
@@ -70,19 +69,19 @@ export async function addTransaction(
   amount: number,
   isInterest = false,
   ts = new Date(),
-  isAllowance = false
+  isAllowance = false,
 ): Promise<QueryResult> {
   return client.query(
     `INSERT INTO transactions (account, description, value, is_interest, ts, is_allowance) 
      VALUES ($1::text, $2::text, $3, $4, $5, $6)`,
-    [userid, description, amount, isInterest, ts, isAllowance]
+    [userid, description, amount, isInterest, ts, isAllowance],
   )
 }
 
 export async function getTransactions(
   client: Client,
   props: AccountProps,
-  userId: string
+  userId: string,
 ): Promise<void> {
   try {
     const result = await client.query(
@@ -91,7 +90,7 @@ export async function getTransactions(
        WHERE account = $1::text OR account IN (SELECT id FROM accounts WHERE view = $1::text)
        ORDER BY ts DESC
        LIMIT 20`,
-      [userId]
+      [userId],
     )
     props.transactions = result.rows
   } catch (error) {

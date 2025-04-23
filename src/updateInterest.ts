@@ -1,4 +1,3 @@
-
 import { Client } from 'pg'
 import moment from 'moment'
 import { addTransaction } from './FuneyPG'
@@ -45,7 +44,7 @@ const updateInterest = async (client: Client, userid: string): Promise<void> => 
     WHERE 
       a.id = $1::text 
       OR a.view = $1::text`,
-    [userid]
+    [userid],
   )
 
   const result = rows[0]
@@ -70,7 +69,7 @@ export async function updateAllowance(client: Client, userIdOrView: string): Pro
       AND t.is_allowance
     WHERE a.id = $1
       OR a.view = $1`,
-    [userIdOrView]
+    [userIdOrView],
   )
 
   const result = rows[0]
@@ -84,7 +83,7 @@ export async function updateAllowance(client: Client, userIdOrView: string): Pro
       result.allowance,
       false,
       moment().day() === 0 ? moment().toDate() : moment().day(-7).toDate(),
-      true
+      true,
     )
     return
   }
@@ -97,7 +96,7 @@ export async function updateAllowance(client: Client, userIdOrView: string): Pro
       result.allowance,
       false,
       moment(result.last).add(7, 'days').toDate(),
-      true
+      true,
     )
     await updateAllowance(client, userIdOrView)
   }

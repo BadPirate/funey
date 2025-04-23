@@ -1,4 +1,3 @@
-
 import type { ReactNode } from 'react'
 import Layout from './Layout'
 import RootNav from './RootNav'
