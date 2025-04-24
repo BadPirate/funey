@@ -1,0 +1,19 @@
+
+CREATE TABLE accounts (
+    id TEXT PRIMARY KEY,
+    value REAL DEFAULT 0 NOT NULL,
+    interest REAL DEFAULT 0.01 NOT NULL,
+    view TEXT DEFAULT (substr(hex(randomblob(4)), 1, 8)) NOT NULL,
+    allowance REAL DEFAULT 0 NOT NULL
+);
+
+CREATE TABLE transactions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    account TEXT NOT NULL,
+    value REAL NOT NULL,
+    description TEXT NOT NULL,
+    is_interest BOOLEAN DEFAULT 0 NOT NULL,
+    is_allowance BOOLEAN DEFAULT 0 NOT NULL,
+    FOREIGN KEY (account) REFERENCES accounts(id) ON DELETE CASCADE ON UPDATE CASCADE
+);

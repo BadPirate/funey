@@ -4,72 +4,80 @@ Thank you for your interest in contributing to Funey!
 
 ## Getting Started
 
-1. Fork the repository and clone your fork:
+1. Fork and clone the repository:
    ```bash
-   git clone git@github.com:<your-username>/funey.git
+   git clone https://github.com/<your-username>/funey.git
    cd funey
    ```
 2. Install dependencies:
    ```bash
    yarn install
    ```
-3. Set up the database:
-   - Create a new Postgres database.
-   - Load the schema:
-     ```bash
-     psql <dbname> < schema.dump
-     ```
-4. Create a `.env.local` file in the project root and define your database connection:
+3. Configure environment:
+   1. Copy the example env file and edit:
+      ```bash
+      cp .env.local.EXAMPLE .env.local
+      ```
+   2. In `.env.local`, set `DATABASE_URL`:
+      - For local SQLite development:
+        ```ini
+        DATABASE_URL=file:./dev.db
+        ```
+      - For PostgreSQL development:
+        ```ini
+        DATABASE_URL=postgresql://user:pass@localhost:5432/funey
+        ```
+4. Initialize the database:
    ```bash
-   PGHOST=localhost
-   PGPORT=5432
-   PGPASS=<your_password>
-   DB=<your_database_name>
+   yarn build:prisma-schemas
+   yarn db:clean
    ```
-5. Start the development server:
+5. Start development server:
    ```bash
    yarn dev
    ```
 
-Open http://localhost:3000 in your browser to verify everything is working.
+## Code Style and Quality
 
-## Code Style
+- Indentation: 4 spaces
+- Strings: double quotes
+- Semicolons: follow existing style
+- Use functional React components
+- Organize pages under `/pages`
+- Keep shared components/utilities in `/src`
+- Update `schema.dump` after DB changes
 
-- Indentation: 2 spaces
-- Strings: single quotes in JS; double quotes in JSX attributes
-- No semicolons at the end of statements
-- Functional React components and Next.js conventions
-- Organize pages under `/pages`; shared components or utilities under `/src`
-- After any DB schema change, regenerate `schema.dump`
+**Automated Checks:**
+
+This project uses `eslint` and `prettier` for code linting and formatting. These checks are automatically run on staged files before each commit using `husky` and `lint-staged`.
+
+- Ensure your code passes `yarn lint` before pushing.
+- Commits may be blocked if linting or formatting errors are found.
 
 ## Commit Messages
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
-- `feat(scope): description` – a new feature
-- `fix(scope): description` – a bug fix
-- `docs(scope): description` – documentation only changes
-- `style(scope): description` – formatting, missing semicolons, etc
-- `refactor(scope): description` – code change that neither fixes a bug nor adds a feature
-- `test(scope): description` – adding or updating tests
-- `chore(scope): description` – changes to build process or auxiliary tools
+
+- `feat:` new feature
+- `fix:` bug fix
+- `docs:` documentation changes
+- `style:` formatting changes
+- `refactor:` code restructuring
+- `test:` adding/updating tests
+- `chore:` build process changes
 
 ## Pull Requests
 
-- Base your PR against the `main` branch
-- Include a clear description of your changes
-- Link to any relevant issues
-- Add screenshots or GIFs for UI changes
-
-## Issues
-
-Please use GitHub Issues to report bugs or suggest features.
+- Base against `main` branch
+- Include clear description
+- Link relevant issues
+- Add screenshots for UI changes
 
 ## Testing
 
-- There are currently no automated tests.
-- Manually verify your changes by running `yarn dev` and checking the app.
-
-## Linting
-
-- You can run `npx next lint` to check for lint errors.
-  (Add an ESLint config if needed.)
+- Manually verify changes with `yarn dev`
+- Run unit tests locally:
+  ```bash
+  yarn test
+  ```
+- **Automated CI:** All pull requests and pushes to `main` automatically trigger a GitHub Actions workflow. This workflow runs linters (`yarn lint`), builds the project (`yarn build`), and executes the test suite (`yarn test`) across multiple Node.js versions. Ensure these checks pass before merging.

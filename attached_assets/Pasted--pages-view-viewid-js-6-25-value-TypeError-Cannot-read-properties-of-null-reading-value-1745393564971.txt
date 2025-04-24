@@ -1,0 +1,26 @@
+⨯ pages/view/[viewid].js (6:25) @ value
+ ⨯ TypeError: Cannot read properties of null (reading 'value')
+    at View (webpack-internal:///./pages/view/[viewid].js:21:28)
+    at renderWithHooks (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:5658:16)
+    at renderIndeterminateComponent (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:5732:15)
+    at renderElement (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:5957:7)
+    at renderNodeDestructiveImpl (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:6115:11)
+    at renderNodeDestructive (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:6087:14)
+    at finishClassComponent (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:5688:3)
+    at renderClassComponent (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:5696:3)
+    at renderElement (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:5954:7)
+    at renderNodeDestructiveImpl (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:6115:11)
+    at renderNodeDestructive (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:6087:14)
+    at renderNode (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:6270:12)
+    at renderHostElement (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:5642:3)
+    at renderElement (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:5963:5)
+    at renderNodeDestructiveImpl (/home/runner/workspace/node_modules/react-dom/cjs/react-dom-server.browser.development.js:6115:11) {
+  page: '/view/A5F0A2E2'
+}
+  4 | import updateInterest, { updateAllowance } from "../../src/updateInterest";
+  5 | 
+> 6 | const View = ({account: {value}, transactions}) => {
+    |                         ^
+  7 |     return (
+  8 |         <Card>
+  9 |             <Card.Header>

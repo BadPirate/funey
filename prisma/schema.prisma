@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Core application models
+
+model Account {
+  id          String        @id
+  // Current value is computed from transactions
+  value       Float         @default(0)
+  interest    Float         @default(0.01)
+  view        String        @unique
+  allowance   Float         @default(0)
+  transactions Transaction[]
+}
+
+model Transaction {
+  id           Int       @id @default(autoincrement())
+  ts           DateTime  @default(now())
+  account      String
+  description  String
+  value        Float
+  is_interest  Boolean   @default(false) @map("is_interest")
+  is_allowance Boolean   @default(false) @map("is_allowance")
+  accountRel   Account   @relation(fields: [account], references: [id], onDelete: Cascade)
+}

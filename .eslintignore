@@ -1,0 +1,12 @@
+node_modules/
+.next/
+funey.db
+schema.dump
+schema.sqlite.sql
+scripts/
+public/
+attached_assets/
+__tests__/
+**/.eslintrc.js
+jest.config.js
+jest.setup.js
