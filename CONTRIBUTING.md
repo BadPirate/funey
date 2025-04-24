@@ -37,7 +37,7 @@ Thank you for your interest in contributing to Funey!
    yarn dev
    ```
 
-## Code Style
+## Code Style and Quality
 
 - Indentation: 4 spaces
 - Strings: double quotes
@@ -46,6 +46,13 @@ Thank you for your interest in contributing to Funey!
 - Organize pages under `/pages`
 - Keep shared components/utilities in `/src`
 - Update `schema.dump` after DB changes
+
+**Automated Checks:**
+
+This project uses `eslint` and `prettier` for code linting and formatting. These checks are automatically run on staged files before each commit using `husky` and `lint-staged`.
+
+- Ensure your code passes `yarn lint` before pushing.
+- Commits may be blocked if linting or formatting errors are found.
 
 ## Commit Messages
 
@@ -69,3 +76,8 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 ## Testing
 
 - Manually verify changes with `yarn dev`
+- Run unit tests locally:
+  ```bash
+  yarn test
+  ```
+- **Automated CI:** All pull requests and pushes to `main` automatically trigger a GitHub Actions workflow. This workflow runs linters (`yarn lint`), builds the project (`yarn build`), and executes the test suite (`yarn test`) across multiple Node.js versions. Ensure these checks pass before merging.

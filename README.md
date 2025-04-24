@@ -59,6 +59,12 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
 
+## Code Quality
+
+This project uses ESLint and Prettier for code linting and formatting. These checks are enforced automatically before each commit using Husky and lint-staged.
+
+Additionally, a GitHub Actions workflow runs on every push and pull request to the `main` branch, executing linters, build steps, and automated tests to ensure code quality and stability.
+
 ## Warning
 
 This is for tracking virtual balances, not actual money storage. While stable, use at your own risk.
