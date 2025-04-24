@@ -1159,6 +1159,13 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.1.tgz#18845205e86ff0038517aab7a18a62a6b9f71275"
   integrity sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
 
+"@types/sha256@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@types/sha256/-/sha256-0.2.2.tgz#633bf20405e90cab0c4df1054b657f206ef15bf5"
+  integrity sha512-uKMaDzyzfcDYGEwTgLh+hmgDMxXWyIVodY8T+qt7A+NYvikW0lmGLMGbQ7BipCB8dzXHa55C9g+Ii/3Lgt1KmA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/stack-utils@^2.0.0":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.3.tgz#6209321eb2c1712a7e7466422b8cb1fc0d9dd5d8"

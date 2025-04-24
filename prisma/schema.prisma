@@ -14,7 +14,7 @@ model Account {
   // Current value is computed from transactions
   value       Float         @default(0)
   interest    Float         @default(0.01)
-  view        String
+  view        String        @unique
   allowance   Float         @default(0)
   transactions Transaction[]
 }
