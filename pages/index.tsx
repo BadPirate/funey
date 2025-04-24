@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import type { NextPage } from 'next'
-import { Button, Collapse } from 'react-bootstrap'
+import Image from 'next/image'
+import { Button, Collapse, Row, Col } from 'react-bootstrap'
 import LoginForm from '../src/components/LoginForm'
 import CreateAccountForm from '../src/components/CreateAccountForm'
+import DescriptionCard from '../src/components/DescriptionCard'
+import pirateImage from '../public/assets/pirate.png'
 
 const Home: NextPage = () => {
   const [openLogin, setOpenLogin] = useState(false)
@@ -44,15 +47,24 @@ const Home: NextPage = () => {
           <CreateAccountForm />
         </div>
       </Collapse>
-      <p>
-        <b>Funey</b> is a website that makes Mo<b>ney</b> <b>Fun</b> :)
-      </p>
-      <p>
-        To get started, create a fake &quot;bank&quot; account for your little ones, set a balance,
-        and an interest rate (accrued monthly) and then add the website link to their mobile device
-        or iPad for &quot;viewing&quot; their balance. As they earn or spend money, come back to the
-        manage page (bookmark or login) and update their account totals.
-      </p>
+
+      {/* Mobile view: Centered image above description */}
+      <div className="d-block d-md-none text-center my-4">
+        <Image src={pirateImage} alt="Funey Pirate" width={100} height={100} />
+      </div>
+      <div className="d-block d-md-none mt-4">
+        <DescriptionCard />
+      </div>
+
+      {/* Desktop view: Centered description left, image right */}
+      <Row className="d-none d-md-flex align-items-center mt-4 justify-content-center">
+        <Col md={6} className="d-flex justify-content-center">
+          <DescriptionCard />
+        </Col>
+        <Col md={4} className="text-center">
+          <Image src={pirateImage} alt="Funey Pirate" width={300} height={300} />
+        </Col>
+      </Row>
     </>
   )
 }
