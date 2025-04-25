@@ -14,6 +14,19 @@ interface TransactionsCardProps {
 const TransactionsCard: React.FC<TransactionsCardProps> = ({ transactions }) => {
   const [expand, setExpand] = useState<boolean>(false)
   const showTransactions = expand ? transactions : transactions.slice(0, 4)
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+      .format(amount)
+      .replace('$', '')
+      .replace('-', '')
+  }
+
   return (
     <div className="mb-3">
       <h2>Transactions:</h2>
@@ -32,7 +45,7 @@ const TransactionsCard: React.FC<TransactionsCardProps> = ({ transactions }) => 
               <tr key={`${ts}-${index}`}>
                 <td>{utcStr}</td>
                 <td>{description}</td>
-                <td>{value >= 0 ? `\$${value.toFixed(2)}` : `\- $${-value.toFixed(2)}`}</td>
+                <td>{value >= 0 ? `$${formatCurrency(value)}` : `- $${formatCurrency(-value)}`}</td>
               </tr>
             )
           })}

@@ -14,6 +14,15 @@ const customJestConfig = {
     url: 'http://localhost:3000',
   },
   preset: 'ts-jest',
+  // Specify __tests__ as the directory for unit tests
+  testMatch: ['<rootDir>/__tests__/**/*.[jt]s?(x)'],
+  // Exclude e2e Playwright tests and empty tests directory from Jest
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/',
+    '<rootDir>/.next/',
+    '<rootDir>/e2e/',
+    '<rootDir>/tests/',
+  ],
   moduleNameMapper: {
     // Handle module aliases (this will be automatically configured for you soon)
     '^@/components/(.*)$': '<rootDir>/src/components/$1',

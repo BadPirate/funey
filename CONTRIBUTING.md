@@ -39,7 +39,7 @@ Thank you for your interest in contributing to Funey!
 
 ## Code Style and Quality
 
-- Indentation: 4 spaces
+- Indentation: 2 spaces
 - Strings: double quotes
 - Semicolons: follow existing style
 - Use functional React components

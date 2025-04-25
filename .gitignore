@@ -1,4 +1,3 @@
-
 .db/
 logfile
 .env.local
@@ -39,3 +38,8 @@ yarn-error.log*
 # vercel
 .vercel
 dev.db
+test-results
+test.db-journal
+
+# Ignore Prisma generated client artifacts
+prisma/node_modules/

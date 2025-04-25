@@ -2,35 +2,50 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import sha256 from 'sha256'
-import crypto from 'crypto'
-import { createAccount, addTransaction } from '../../src/db'
+import accountService from '../../src/services/db/accounts'
 
-type CreateRequest = NextApiRequest & {
-  body: {
-    user: string
-    pass: string
-    pass2: string
-  }
+type ApiResponse = {
+  message: string
+  key?: string
+  error?: string
 }
 
-export default async function handler(req: CreateRequest, res: NextApiResponse) {
-  const { user, pass, pass2 } = req.body
-  if (pass !== pass2) {
-    res.status(400).send("Passwords do't match")
-    return
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' })
   }
-  const shaKey = sha256(`${user}&&${pass}`)
+
   try {
-    // Create account and initial setup transaction
-    const account = await createAccount(shaKey)
-    await addTransaction(account.id, 'Initial Setup', 0)
-    res.redirect(302, `/manage/${shaKey}`)
-  } catch (error: any) {
-    // Prisma unique constraint error code P2002
-    if (error.code === 'P2002') {
-      res.status(409).send('Account already exists.')
-    } else {
-      res.status(500).send(`Error - ${error.message}`)
+    const { username, password } = req.body
+
+    // Basic validation
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ message: 'Validation failed', error: 'Username and password are required' })
     }
+
+    // Type safe approach instead of using 'any'
+    const key = sha256(`${username}&&${password}`) as string
+
+    // Check if user exists
+    const existingUser = await accountService.getUser(key)
+    if (existingUser) {
+      return res.status(409).json({ message: 'Account exists', error: 'Account already exists' })
+    }
+
+    // Create user
+    await accountService.createUser(key, username)
+
+    return res.status(201).json({
+      message: 'Account created successfully!',
+      key,
+    })
+  } catch (error) {
+    console.error('Create account error:', error)
+    return res.status(500).json({
+      message: 'Server error',
+      error: error instanceof Error ? error.message : 'Failed to create account',
+    })
   }
 }

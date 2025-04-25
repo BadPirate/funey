@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { updateAccountSettings } from '../../../../src/db'
+import accountService from '../../../../src/services/db/accounts'
 
 type UpdateRequest = NextApiRequest & {
   body: {
@@ -22,9 +22,11 @@ export default async function handler(req: UpdateRequest, res: NextApiResponse) 
   const interest = parseFloat(interestRaw)
   const allowance = parseFloat(allowanceRaw)
   try {
-    await updateAccountSettings(userid, interest, allowance)
-    res.redirect(302, `/manage/${userid}`)
+    const result = await accountService.updateAccountSettings(userid, interest, allowance)
+    return res.status(200).json({ message: 'User info updated', result })
   } catch (error) {
-    res.status(500).send('Error updating account')
+    // Log the error for debugging
+    console.error('Failed to update user info:', error)
+    return res.status(500).json({ error: 'Failed to update user info' })
   }
 }

@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import { Form, Button, Alert } from 'react-bootstrap'
+import { useRouter } from 'next/router'
 
 const CreateAccountForm: React.FC = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError(null)
-    setSuccess(null)
 
     if (username.length < 4) {
       setError('Username must be at least 4 characters long')
@@ -43,11 +43,8 @@ const CreateAccountForm: React.FC = () => {
       if (!response.ok) {
         setError(data.error || 'Failed to create account')
       } else {
-        setSuccess(data.message || 'Account created successfully!')
-        setUsername('')
-        setPassword('')
-        setPassword2('')
-        // Optionally redirect or perform other actions on success
+        // Navigate to the management page
+        router.push(`/manage/${data.key}`)
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.')
@@ -60,7 +57,6 @@ const CreateAccountForm: React.FC = () => {
   return (
     <Form onSubmit={handleSubmit}>
       {error && <Alert variant="danger">{error}</Alert>}
-      {success && <Alert variant="success">{success}</Alert>}
       <Form.Group className="mb-3" controlId="formUsername">
         <Form.Label>Username</Form.Label>
         <Form.Control
