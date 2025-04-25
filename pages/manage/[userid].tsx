@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import type { NextPage, GetServerSideProps } from 'next'
-import type { Transaction, Account } from '../../src/types'
 import { Button, Card, Form, FormControl, InputGroup, Alert } from 'react-bootstrap'
-import { getAccountInfo, getTransactions, updateInterest, updateAllowance } from '../../src/db'
+import type { Transaction, Account } from '../../src/types'
+import accountService from '../../src/services/db/accounts'
+import transactionService from '../../src/services/db/transactions'
+import financialService from '../../src/services/db/financials'
 import TransactionsCard from '../../src/TransactionsCard'
 
 interface ManageProps {
@@ -86,14 +88,14 @@ export const getServerSideProps: GetServerSideProps<ManageProps> = async ({ quer
     return { notFound: true }
   }
   // Apply pending interest and allowance
-  await updateInterest(id)
-  await updateAllowance(id)
+  await financialService.updateInterest(id)
+  await financialService.updateAllowance(id)
   // Fetch account and transactions
-  const account = await getAccountInfo(id)
+  const account = await accountService.getAccountInfo(id)
   if (!account) {
     return { notFound: true }
   }
-  const transactions = await getTransactions(id)
+  const transactions = await transactionService.getTransactions(id)
   return { props: { userid: id, account, transactions } }
 }
 

@@ -1,8 +1,10 @@
 import React from 'react'
 import type { NextPage, GetServerSideProps } from 'next'
-import type { Transaction, Account } from '../../src/types'
 import { Card } from 'react-bootstrap'
-import { getAccountInfo, getTransactions, updateInterest, updateAllowance } from '../../src/db'
+import type { Transaction, Account } from '../../src/types'
+import accountService from '../../src/services/db/accounts'
+import transactionService from '../../src/services/db/transactions'
+import financialService from '../../src/services/db/financials'
 import TransactionsCard from '../../src/TransactionsCard'
 
 interface ViewProps {
@@ -41,11 +43,11 @@ export const getServerSideProps: GetServerSideProps<ViewProps> = async ({ query 
   const id = Array.isArray(viewid) ? viewid[0] : viewid
   const props: ViewProps = { account: null, transactions: [] }
   if (id) {
-    await updateInterest(id)
-    await updateAllowance(id)
-    const account = await getAccountInfo(id)
+    await financialService.updateInterest(id)
+    await financialService.updateAllowance(id)
+    const account = await accountService.getAccountInfo(id)
     if (account) {
-      const transactions = await getTransactions(id)
+      const transactions = await transactionService.getTransactions(id)
       props.account = account
       props.transactions = transactions
     }

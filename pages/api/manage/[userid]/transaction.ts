@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { addTransaction } from '../../../../src/db'
+import transactionService from '../../../../src/services/db/transactions'
 
 type TransactionRequest = NextApiRequest & {
   body: {
@@ -27,10 +27,13 @@ export default async function handler(req: TransactionRequest, res: NextApiRespo
   } else if (amount < 0) {
     amount = -amount
   }
+  // Attempt to create the transaction
   try {
-    await addTransaction(userid, description, amount)
-    res.redirect(302, `/manage/${userid}`)
+    const result = await transactionService.addTransaction(userid, description, amount)
+    return res.status(201).json({ message: 'Transaction created', result })
   } catch (error) {
-    res.status(500).send('Error processing transaction')
+    // Log the error for debugging
+    console.error('Failed to create transaction:', error)
+    return res.status(500).json({ error: 'Failed to create transaction' })
   }
 }
