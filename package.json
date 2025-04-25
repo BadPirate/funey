@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start -p $PORT",
     "test": "jest",
+    "test:e2e": "npx playwright test",
     "lint": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css,scss,html}\" && eslint -c .eslintrc.js . --ext .js,.jsx,.ts,.tsx --fix",
     "db:up": "rm -f funey.db && cat schema.sqlite.sql | sqlite3 funey.db",
     "db:down": "rm -f funey.db",
@@ -16,7 +17,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@prisma/client": "^6.6.0",
+    "@popperjs/core": "^2.11.8",
+    "@prisma/client": "6.6.0",
     "bootstrap": "^5.3.2",
     "dotenv": "^16.5.0",
     "moment": "^2.29.4",
@@ -30,12 +32,15 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "@types/sha256": "^0.2.2",
     "eslint": "8.57.0",
     "eslint-config-next": "^15.3.1",

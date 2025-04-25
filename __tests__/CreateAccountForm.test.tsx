@@ -152,6 +152,10 @@ describe('CreateAccountForm', () => {
     // Mock a network error
     fetchMock.mockRejectOnce(new Error('Network failure'));
 
+    // --- Silence console.error ---
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    // -----------------------------
+
     const user = userEvent.setup();
     render(<CreateAccountForm />);
     const usernameInput = screen.getByLabelText(/^Username$/i);
@@ -170,6 +174,10 @@ describe('CreateAccountForm', () => {
 
     // Check for the generic catch block error message
     expect(await screen.findByText(/An unexpected error occurred. Please try again./i)).toBeInTheDocument();
+
+    // --- Restore console.error ---
+    errorSpy.mockRestore();
+    // ---------------------------
   });
 
   it('shows an error message if username is too short', async () => {
