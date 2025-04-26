@@ -1,4 +1,5 @@
 import prisma from './client'
+import { Transaction } from '@/src/types'
 
 /**
  * Add a transaction to an account.
@@ -45,10 +46,10 @@ async function getTransactions(
     orderBy: { ts: 'desc' },
     take: 20,
   })
-  return trs.map((t) => ({
+  return trs.map((t: Transaction) => ({
     id: t.id,
     description: t.description,
-    ts: Math.floor(t.ts.getTime() / 1000),
+    ts: t.ts,
     value: t.value,
   }))
 }
