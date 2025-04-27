@@ -27,8 +27,14 @@ export default async function handler(req: TransactionRequest, res: NextApiRespo
   }
   // Attempt to create the transaction
   try {
-    const result = await transactionService.addTransaction(userid, description, amount)
-    return res.status(201).json({ message: 'Transaction created', result })
+    await transactionService.addTransaction(userid, description, amount)
+    // If the request is a form POST, redirect to the manage page
+    if (req.method === 'POST') {
+      res.redirect(303, `/manage/${userid}`)
+      return
+    }
+    // For non-form requests, return JSON (for API/AJAX use)
+    return res.status(201).json({ message: 'Transaction created' })
   } catch (error) {
     // Log the error for debugging
     console.error('Failed to create transaction:', error)
