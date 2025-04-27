@@ -1,5 +1,5 @@
+import type { Transaction } from '@prisma/client'
 import prisma from './client'
-import { Transaction } from '@/src/types'
 
 /**
  * Add a transaction to an account.
@@ -49,7 +49,7 @@ async function getTransactions(
   return trs.map((t: Transaction) => ({
     id: t.id,
     description: t.description,
-    ts: t.ts,
+    ts: t.ts instanceof Date ? Math.floor(t.ts.getTime() / 1000) : t.ts,
     value: t.value,
   }))
 }

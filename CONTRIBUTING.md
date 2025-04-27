@@ -80,4 +80,8 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
   ```bash
   yarn test
   ```
+- Run end-to-end (e2e) tests with Playwright:
+  ```bash
+  yarn test:e2e
+  ```
 - **Automated CI:** All pull requests and pushes to `main` automatically trigger a GitHub Actions workflow. This workflow runs linters (`yarn lint`), builds the project (`yarn build`), and executes the test suite (`yarn test`) across multiple Node.js versions. Ensure these checks pass before merging.

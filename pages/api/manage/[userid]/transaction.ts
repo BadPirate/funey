@@ -21,10 +21,8 @@ export default async function handler(req: TransactionRequest, res: NextApiRespo
     return
   }
   // Use Prisma to add transaction
-  let amount = typeof amtRaw === 'string' ? parseFloat(amtRaw) : amtRaw
-  if (action === 'subtract' && amount > 0) {
-    amount = -amount
-  } else if (amount < 0) {
+  let amount = Math.abs(typeof amtRaw === 'string' ? parseFloat(amtRaw) : amtRaw)
+  if (action === 'subtract') {
     amount = -amount
   }
   // Attempt to create the transaction

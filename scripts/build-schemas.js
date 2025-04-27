@@ -31,14 +31,9 @@ providers.forEach(({ name, wrapper }) => {
   const modifiedWrapperContent = wrapperContent.replace(
     generatorRegex,
     (match, opening, content, closing) => {
-      if (content.includes('output')) {
-        return match; // Already has output, do nothing
-      }
-      // Add output path, ensuring proper indentation and newline before closing brace
-      const indentedOutput = '\n  output   = "../node_modules/@prisma/client"';
-      // Ensure content ends with a newline if it's not empty and trim existing whitespace
+      // Remove output path so Prisma uses the default (node_modules/@prisma/client)
       const formattedContent = content.trim() + (content.trim() ? '\n' : '');
-      return opening + '\n' + formattedContent + indentedOutput + '\n' + closing.trim(); // Reconstruct with newlines
+      return opening + '\n' + formattedContent + closing.trim();
     }
   );
   // -------------------------------------------------------
