@@ -22,8 +22,14 @@ export default async function handler(req: UpdateRequest, res: NextApiResponse) 
   const interest = parseFloat(interestRaw)
   const allowance = parseFloat(allowanceRaw)
   try {
-    const result = await accountService.updateAccountSettings(userid, interest, allowance)
-    return res.status(200).json({ message: 'User info updated', result })
+    await accountService.updateAccountSettings(userid, interest, allowance)
+    // If the request is a form POST, redirect to the manage page
+    if (req.method === 'POST') {
+      res.redirect(303, `/manage/${userid}`)
+      return
+    }
+    // For non-form requests, return JSON (for API/AJAX use)
+    return res.status(200).json({ message: 'User info updated' })
   } catch (error) {
     // Log the error for debugging
     console.error('Failed to update user info:', error)

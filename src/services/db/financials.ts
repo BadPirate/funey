@@ -29,14 +29,10 @@ async function updateInterest(idOrView: string): Promise<void> {
   next.setMonth(next.getMonth() + 1)
   if (next > new Date()) return
 
-  // interest applied on sum at that time
-  await transactionService.addTransaction(
-    accountId,
-    'Interest payment',
-    acct.value * acct.interest,
-    true,
-    next,
-  )
+  const interestValue = acct.value * acct.interest
+  if (!Number.isFinite(interestValue) || interestValue === 0) return
+
+  await transactionService.addTransaction(accountId, 'Interest payment', interestValue, true, next)
 
   // recurse to catch up multiple months
   return updateInterest(idOrView)
@@ -68,6 +64,7 @@ async function updateAllowance(idOrView: string): Promise<void> {
   }
 
   if (next > new Date()) return
+  if (!Number.isFinite(acct.allowance) || acct.allowance === 0) return
 
   await transactionService.addTransaction(accountId, 'Allowance', acct.allowance, false, next, true)
 
