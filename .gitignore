@@ -43,3 +43,4 @@ test.db-journal
 
 # Ignore Prisma generated client artifacts
 prisma/node_modules/
+tsconfig.tsbuildinfo

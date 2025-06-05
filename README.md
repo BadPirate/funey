@@ -9,6 +9,7 @@ A web app for managing a virtual "ledger" for your children. Making money fun (f
 - Automatic monthly interest calculation
 - Automatic weekly allowance
 - Mobile-friendly display (can be added as a home icon)
+- No email or personal info required; all account keys are derived from username+password using sha256
 
 ## Development
 
@@ -58,6 +59,17 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
+
+### Testing
+
+- Run unit tests:
+  ```bash
+  yarn test
+  ```
+- Run end-to-end (e2e) tests with Playwright:
+  ```bash
+  yarn test:e2e
+  ```
 
 ## Code Quality
 
